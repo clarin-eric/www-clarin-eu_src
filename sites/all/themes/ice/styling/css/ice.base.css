@@ -1,0 +1,38 @@
+html {
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media screen and (orientation: landscape) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
+span.nolink {
+  cursor: default;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.field-name-field-image div {
+  width: 100%;
+}
+
+.gmap img,
+.view-gmap img,
+.openlayers-map img,
+#getlocations_map_canvas img {
+  max-width: none !important;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}

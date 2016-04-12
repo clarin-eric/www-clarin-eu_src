@@ -1,0 +1,80 @@
+// ---------------------------------------------------------------------------
+// Imports
+
+$show-grid-backgrounds  : false;
+
+@font-face {
+  font-family: 'fontello';
+  src: url("../fonts/font/fontello.eot");
+  src: url("../fonts/font/fontello.eot?#iefix") format('embedded-opentype'), url("../fonts/font/fontello.woff") format('woff'), url("../fonts/font/fontello.ttf") format('truetype'), url("../fonts/font/fontello.svg#fontello") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Utility styles
+
+.float-left {
+  float:left;
+}
+
+.float-right {
+  float:right;
+}
+
+// Layer Styles
+
+@mixin magic-border($offset: 1) {
+  @include box-shadow(rgba(#fff, $offset) 0 0 0 1px inset);
+}
+
+@mixin card-style {
+    @include box-sizing(border-box);
+    padding:10px $indent 20px $indent;
+    position:relative;
+    margin-bottom:$gutter / 2;
+    border:1px solid #e3e3e3;
+    border-right-width:2px;
+    @include border-radius(3px);
+    border-left:3px solid $text;
+    @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.05)));
+}
+
+@mixin inline-box {
+  @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.09)));
+  border:1px solid $grey;
+  display:block;
+  float:left;
+  margin:0 ($gutter/2) 0 0;
+  padding: 2px 4px;
+  @include border-radius(3px);
+  text-decoration:none;
+}
+
+@mixin callout {
+  padding:$gutter / 2;
+  padding-bottom:30px;
+  @include box-sizing(border-box);
+  @include border-radius(2px);
+  position:relative;
+  background:$blue;
+  @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.1)));
+  color:#fff;
+  border:none;
+  a {
+    color:#fff;
+    text-decoration:underline;
+    &:hover, &:focus {
+      text-decoration:none;
+    }
+  }
+  .block-title {
+    color:#fff;
+    background:none;
+    padding:0;
+    line-height:1.3em;
+    margin:0 0 0.5em 0;
+  }
+  h2, h3, h4 {
+    color:#fff;
+  }
+}

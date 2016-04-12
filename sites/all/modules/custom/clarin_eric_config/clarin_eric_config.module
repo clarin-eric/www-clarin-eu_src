@@ -1,0 +1,197 @@
+<?php
+/**
+ * @file
+ * Code for the CLARIN ERIC Config feature.
+ */
+
+include_once 'clarin_eric_config.features.inc';
+/**
+ * @file
+ */
+
+// drupal_set_message('Welcome to the new CLARIN.eu website. If you have any quesions or remarks about the new website please <a href="/contact">contact</a> us.');
+
+/**
+ * Implements hook_filter_info().
+ *
+ */
+function clarin_eric_config_filter_info() {
+  $filters['clarine_legacy'] = array(
+    'title' => t('Transform Clarin Eric Legacy content'),
+    'description' => t('Map old file urls and fix content problems'),
+    'process callback'  => '_clarine_legacy_filter',
+  );
+  return $filters;
+}
+
+/**
+ * OpenScience Cleanup filter process callback.
+ *
+ * The actual filtering is performed here.
+ */
+function _clarine_legacy_filter($text, $filter, $format) {
+  $text = str_replace('clarin.nl/system/files/', 'clarin.nl/sites/default/files/', $text);
+  $text = str_replace('clarin.nl/sites/default/files/private/', 'clarin.nl/system/files/private/', $text);
+  $text = str_replace('clarin.eu/system/files/', 'clarin.eu/sites/default/files/', $text);
+  $text = str_replace('clarin.eu/sites/default/files/private/', 'clarin.eu/system/files/private/', $text);
+  $text = str_replace(' align=', ' class=', $text);
+
+  return $text;
+}
+
+
+/**
+ * Implements hook_menu_alter().
+ *
+ */
+
+function clarin_eric_config_menu() {
+  $items['clarin-eric-datatables/centres'] = array(
+    'title' => 'Overview CLARIN centres',
+    'page callback' => 'clarin_eric_config_centres_table',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['clarin-eric-datatables/centres/%'] = array(
+    'title' => 'Overview CLARIN centres',
+    'page callback' => 'clarin_eric_config_centres_table',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['news-portal'] = array(
+    'title' => 'News Portal',
+    'page callback' => 'empty_page_empty',
+    'access callback' => TRUE,
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_menu_alter().
+ *
+ */
+
+function clarin_eric_config_menu_alter(&$items) {
+  // Registration and login pages.
+  $items['user/register'] = array(
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('https://user.clarin.eu/user/register'),
+    'title' => 'Create new account',
+    'access callback' => 'user_register_access',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['user/password'] = array(
+    'title' => 'Request new password',
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('https://user.clarin.eu/user/password'),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['user/reset/%/%/%'] = array(
+    'title' => 'Reset password',
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('https://user.clarin.eu/user/password'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+}
+
+
+/**
+ * Implements hook_username_alter().
+ *
+ */
+//function clarin_eric_config_username_alter(&$name, $account) {
+//  if (!user_is_logged_in()) {
+//    $name = ' ... ';
+//  }
+//}
+
+/**
+ * Helper function to generate centres tables from JSON feeds
+ *
+ */
+
+function clarin_eric_config_centres_table($type = FALSE) {
+  // do not cache this page
+  $type = (int) $type;
+  drupal_page_is_cacheable(FALSE);
+
+  $centres_url = 'https://centres.clarin.eu/api/model/Centre';
+  $consortia_url = 'https://centres.clarin.eu/api/model/Consortium';
+  $centre_types_url = 'https://centres.clarin.eu/api/model/CentreType';
+  $consortia_array = $centre_types_array  = array();
+  // Cache JSON ednpoint for 4 hours
+  if (variable_get('clarin_eric_centres_time')
+      && (variable_get('clarin_eric_centres_time') > (time() - 60*60*4 ))) {
+     $centres = variable_get('clarin_eric_centres');
+     $consortia = variable_get('clarin_eric_consortia');
+     $centre_types = variable_get('clarin_eric_centre_types');
+  } else {
+     $centres = file_get_contents($centres_url);
+     $consortia = file_get_contents($consortia_url);
+     $centre_types = file_get_contents($centre_types_url);
+     variable_set('clarin_eric_centres', $centres);
+     variable_set('clarin_eric_consortia', $consortia);
+     variable_set('clarin_eric_centre_types', $centre_types);
+     variable_set('clarin_eric_centres_time', time());
+  }
+  if ($centres && $consortia && $centre_types) {
+    $centres = json_decode($centres);
+    $consortia = json_decode($consortia);
+    $centre_types = json_decode($centre_types);
+    $centre_base_url = 'https://centres.clarin.eu/centre/';
+    foreach ($consortia as $consortium) {
+      $consortia_array[$consortium->pk] = l($consortium->fields->name, $consortium->fields->website_url);
+    }
+    foreach ($centre_types as $centre_type) {
+      $centre_types_array[$centre_type->pk] = $centre_type->fields->type;
+    }
+    $rows = array();
+    $header = array(t('Centre'), t('Type and Status'), t('Consortium'), t('Data Seal of Approval'));
+    foreach ($centres as $centre) {
+      if (isset($consortia))
+      if (empty($centre->fields->type_certificate_url)) {
+        $centre_type = $centre_types_array[$centre->fields->type[0]];
+      }
+      else {
+        $centre_type = l($centre_types_array[$centre->fields->type[0]], $centre->fields->type_certificate_url);
+      }
+      if (empty($centre->fields->dsa_url)) {
+        $dsa_url = '';
+      }
+      else {
+        $dsa_url = l('seal', $centre->fields->dsa_url);
+      }
+      if ($type) {
+        if (in_array($type, $centre->fields->type)) {
+          $rows[] = array(
+              l($centre->fields->name, $centre_base_url . $centre->pk),
+              $centre_type . ' ' . $centre->fields->type_status,
+              $consortia_array[$centre->fields->consortium],
+              $dsa_url
+            );
+        }
+      }
+      else {
+        $rows[] = array(
+            l($centre->fields->name, $centre_base_url . $centre->pk),
+            $centre_type . ' ' . $centre->fields->type_status,
+            $consortia_array[$centre->fields->consortium],
+            $dsa_url
+          );
+      }
+    }
+    if ($type == 1) {
+      drupal_set_title(t('Certified centres'));
+    }
+    $output = theme('table', array('header' => $header, 'rows' => $rows));
+    return $output;
+  }
+  else {
+    return t('centres.clarin.eu API feeds not found');
+  }
+}

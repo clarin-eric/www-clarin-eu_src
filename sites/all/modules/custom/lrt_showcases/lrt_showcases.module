@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the LRT Showcases feature.
+ */
+
+include_once 'lrt_showcases.features.inc';

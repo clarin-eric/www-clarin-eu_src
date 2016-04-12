@@ -1,0 +1,207 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience UI feature.
+ */
+
+include_once 'openscience_ui.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function openscience_ui_menu() {
+  $items['null/front'] = array(
+    'title' => variable_get('site_name'),
+    'page callback' => 'empty_page_empty',
+    'access callback' => TRUE,
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  $items['auth-portal'] = array(
+    'title' => '',
+    'page callback' => 'empty_page_empty',
+    'access callback' => TRUE,
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  $items['guest-portal'] = array(
+    'title' => '',
+    'page callback' => 'empty_page_empty',
+    'access callback' => TRUE,
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Provide empty page callback
+ */
+function openscience_ui_menu_alter(&$items) {
+  unset($items['node']);
+}
+
+/**
+ * Implements hook_filter_info().
+ *
+ */
+function openscience_ui_filter_info() {
+  $filters['openscience_cleanup'] = array(
+    'title' => t('OpenScience Cleanup Filter'),
+    'description' => t('Common WYSIWYG copy paste problems get handled here'),
+    'process callback'  => '_openscience_ui_cleanup_filter',
+  );
+  return $filters;
+}
+
+/**
+ * Null
+ *
+ * @return string $output
+ */
+function empty_page_empty() {
+  // Return a space so that an empty page can be used for 40x pages.
+  return ' ';
+}
+
+/**
+ * Implements hook_preprocess_page()
+ *
+ * Remove page title from frontpage
+ * @return string $output
+ */
+
+function openscience_ui_preprocess_page(&$vars) {
+  if (drupal_is_front_page()) {
+    $vars['title'] = FALSE;
+  }
+}
+
+
+function openscience_ui_preprocess_node(&$vars) {
+  $vars['date'] = format_date($vars['created'], 'custom', 'j F Y');
+  if (isset($vars['content']['links']['comment']['#links']['comment-new-comments'])) {
+    unset($vars['content']['links']['comment']['#links']['comment-new-comments']);
+  }
+  if (isset($vars['content']['links']['comment']['#links']['comment-add'])) {
+    unset($vars['content']['links']['comment']['#links']['comment-add']);
+  }
+
+  if (!isset($vars['content']['links']['buttons'])) {
+    $vars['content']['links']['buttons'] = array(
+      '#links' => array(),
+      '#theme' => 'links',
+    );
+  }
+  if (isset($vars['content']['links']['flag'])) {
+    $vars['content']['links']['buttons']['#links'] = array_merge(
+      $vars['content']['links']['flag']['#links'],
+      $vars['content']['links']['buttons']['#links']
+    );
+    unset($vars['content']['links']['flag']);
+  }
+  if ($vars['type'] == 'event') {
+    $registration = field_get_items('node', $vars['node'], 'field_registration');
+    if ($registration[0]['registration_type']) {
+      $vars['content']['links']['buttons']['#links']['registration']  = array(
+        'title' => t('Register with this event'),
+        'href' => 'node/' . $vars['nid'] . '/register',
+      );
+    }
+  }
+}
+
+function openscience_ui_preprocess_views_view_list(&$vars) {
+  if ($vars['view']->name == 'openscience_popular_content') {
+    if (isset($vars['classes_array'])) {
+      foreach ($vars['classes_array'] as $id => $value) {
+        if (isset($vars['view']->result[$id]->field_field_image) && ($vars['view']->result[$id]->field_field_image)) {
+          $vars['classes_array'][$id] = 'image';
+        }
+        else {
+          $vars['classes_array'][$id] = 'no-image';
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+
+function openscience_ui_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node']) && $form_id == $form['#node']->type .'_node_form') {
+
+    // Eliminate the following options from all node forms since we will control
+    // them with flags
+    if (isset($form['options']['promote'])) {
+      unset($form['options']['promote']);
+    }
+    if (isset($form['options']['sticky'])) {
+      unset($form['options']['sticky']);
+    }
+  }
+}
+
+/**
+ * Implement hook_form_user_register_form_alter().
+ *
+ * @ingroup openscience_ui_core
+ */
+function openscience_ui_form_user_register_form_alter(&$form, &$form_state) {
+  $form['#validate'][] = 'openscience_ui_user_register_validate';
+}
+
+/**
+ * Custom validation function for user registration form
+ * Enforcing full name usernames
+ */
+function openscience_ui_user_register_validate($form, &$form_state) {
+  if (!strpos($form_state['values']['name'], ' ')) {
+    form_set_error('name', 'Please enter your full name with a space between your first and last name.');
+  }
+}
+
+/**
+ * Implements hook_admin_menu_output_alter().
+ * @todo remove this when http://drupal.org/node/293768 makes it into a stable release
+ */
+
+function openscience_ui_admin_menu_output_alter(&$content) {
+  unset($content['user']['user-counter']);
+}
+
+function openscience_ui_form_user_login_alter(&$form, &$form_state, $form_id) {
+  $form['#submit'][] = '_openscience_ui_user_login_submit';
+}
+
+//Custom submit handler
+function _openscience_ui_user_login_submit($form, &$form_state) {
+  drupal_register_shutdown_function('openscience_ui_perform_redirect');
+}
+
+/**
+ * Perform redirects.
+ */
+function openscience_ui_perform_redirect() {
+  drupal_goto('<front>');
+}
+
+/**
+ * OpenScience Cleanup filter process callback.
+ *
+ * The actual filtering is performed here.
+ */
+function _openscience_ui_cleanup_filter($text, $filter, $format) {
+  $text = preg_replace('#<div(.*)>(.*)</div>#', '<p$1>$2</p>', $text);
+  $text = preg_replace('#<h1(.*)>(.*)</h1>#', '<h2$1>$2</h2>', $text);
+  $text = preg_replace('#<b(.*)>(.*)</b>#', '<strong$1>$2</strong>', $text);
+  $text = preg_replace('#<i(.*)>(.*)</i>#', '<em$1>$2</em>', $text);
+
+  // Eliminate this unsupported unicode dash that totally messes up Google Chrome
+  $text = str_replace('‐', '-', $text);
+  $text = str_replace(' align=', ' class=', $text);
+
+  return $text;
+}

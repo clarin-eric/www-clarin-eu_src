@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience Governance feature.
+ */
+
+include_once 'openscience_governance.features.inc';
+
+function openscience_governance_preprocess_node(&$vars) {
+  if ($vars['type'] == 'member') {
+    unset($vars['content']['links']);
+  }
+}

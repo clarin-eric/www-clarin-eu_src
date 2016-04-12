@@ -1,0 +1,56 @@
+
+@import "compass/css3";
+@import "base";
+
+//
+// Disable Safari Mobile automatic font upscaling in landscape mode
+
+
+html {
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media screen and (orientation:landscape) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
+
+//
+// Drop down menus with nolink parents
+//
+
+span.nolink {
+  cursor:default;
+}
+
+//
+// Responsive images
+
+
+img {
+  max-width:100%;
+  height:auto;
+  -ms-interpolation-mode: bicubic;
+  // Make sure borders don't overflow the grid units!
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+// max-width doesn't work if there's a bunch of width:auto divs around it
+.field-name-field-image div {width:100%}
+
+// Override max-width 100% for Gmaps & Getlocations*/
+.gmap img,
+.view-gmap img,
+.openlayers-map img,
+#getlocations_map_canvas img {
+  max-width: none !important;
+}
+
+// Improve IE's resizing of images
+svg:not(:root) {
+  overflow: hidden;
+}

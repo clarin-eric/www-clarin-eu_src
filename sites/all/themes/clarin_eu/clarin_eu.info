@@ -1,0 +1,52 @@
+; --------------------------------------------------------------------------------
+; Theme information
+; --------------------------------------------------------------------------------
+
+base theme                                  = ice
+name                                        = Clarin.eu Theme
+description                                 = Clarin.eu theme built on Ice base theme
+core                                        = 7.x
+engine                                      = phptemplate
+
+; --------------------------------------------------------------------------------
+; Sitewide stylesheets and scripts.
+; --------------------------------------------------------------------------------
+
+stylesheets[all][] = styling/css/style.css
+stylesheets[all][] = scripts/vendor/sooperfish/sooperfish.css
+
+scripts[]          = scripts/vendor/html5-3.6-respond-1.1.0.min.js
+; scripts[]          = scripts/vendor/Hyphenator.min.js
+scripts[]          = scripts/vendor/jQuery.equalHeights.min.js
+scripts[]          = scripts/vendor/selectivizr-min.js
+scripts[]          = scripts/vendor/flexslider/jquery.flexslider-min.js
+scripts[]          = scripts/vendor/sooperfish/jquery.sooperfish.min.js
+
+scripts[]          = scripts/main.js
+
+; --------------------------------------------------------------------------------
+; Regions.
+; --------------------------------------------------------------------------------
+
+regions[up_top]                             = Up Top
+regions[header]                             = Header
+regions[featured]                           = Featured
+regions[preblocks]                          = Preblocks
+regions[peripheral_first]                   = Peripheral First
+regions[help]                               = Help
+regions[content_top]                        = Content Top
+regions[content]                            = Content
+regions[content_bottom]                     = Content Bottom
+regions[peripheral_second]                  = Peripheral Second
+regions[postblocks]                         = Postblocks
+regions[footer]                             = Footer
+
+; --------------------------------------------------------------------------------
+; Define features supported by this theme.
+; --------------------------------------------------------------------------------
+
+features[]                                  = logo
+features[]                                  = name
+features[]                                  = slogan
+features[]                                  = node_user_picture
+features[]                                  = favicon

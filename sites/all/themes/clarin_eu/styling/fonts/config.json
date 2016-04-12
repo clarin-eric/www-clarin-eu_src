@@ -1,0 +1,149 @@
+{
+  "name": "",
+  "glyphs": [
+    {
+      "search": [
+        "youtube"
+      ],
+      "code": 85,
+      "uid": "57a4f84c40a0c44d47387105f162a427",
+      "css": "youtube",
+      "orig_css": "youtube",
+      "orig_code": 85,
+      "src": "zocial",
+      "from": 85
+    },
+    {
+      "search": [
+        "drupal"
+      ],
+      "code": 228,
+      "uid": "9794e9b767f192e0d499dfc98d52e802",
+      "css": "drupal",
+      "orig_css": "drupal",
+      "orig_code": 228,
+      "src": "zocial",
+      "from": 228
+    },
+    {
+      "search": [
+        "flag"
+      ],
+      "code": 9873,
+      "from": 9873,
+      "uid": "4i0s2bklai5fywieqm4dqqngfz9ptfab",
+      "css": "flag",
+      "orig_css": "flag",
+      "orig_code": 9873,
+      "src": "typicons"
+    },
+    {
+      "search": [
+        "plus"
+      ],
+      "code": 10133,
+      "from": 10133,
+      "uid": "a66cdc7278e6b33b8bd44a141f5e1a8d",
+      "css": "plus-circled",
+      "orig_css": "plus-circled",
+      "orig_code": 10133,
+      "src": "entypo"
+    },
+    {
+      "search": [
+        "profile",
+        "contact",
+        "user",
+        "add"
+      ],
+      "code": 59136,
+      "uid": "6274e0601f2feef7eced89146e708de0",
+      "css": "user-add",
+      "orig_css": "user-add",
+      "orig_code": 59136,
+      "src": "entypo",
+      "from": 59136
+    },
+    {
+      "search": [
+        "twitter"
+      ],
+      "code": 61593,
+      "uid": "627abcdb627cb1789e009c08e2678ef9",
+      "css": "twitter",
+      "orig_css": "twitter",
+      "orig_code": 61593,
+      "src": "fontawesome",
+      "from": 61593
+    },
+    {
+      "search": [
+        "chat",
+        "talk"
+      ],
+      "code": 61670,
+      "uid": "31951fbb9820ed0690f675b3d495c8da",
+      "css": "chat-empty",
+      "orig_css": "chat-empty",
+      "orig_code": 61670,
+      "src": "fontawesome",
+      "from": 61670
+    },
+    {
+      "search": [
+        "flickr",
+        "social",
+        "logo"
+      ],
+      "code": 62212,
+      "uid": "5bbd46b2a0b972533f4d3ef243645e1d",
+      "css": "flickr-circled",
+      "orig_css": "flickr-circled",
+      "orig_code": 62212,
+      "src": "entypo",
+      "from": 62212
+    },
+    {
+      "search": [
+        "facebook",
+        "social",
+        "logo"
+      ],
+      "code": 62222,
+      "uid": "47bd87a650e95b97f947d275ed968efe",
+      "css": "facebook-squared",
+      "orig_css": "facebook-squared",
+      "orig_code": 62222,
+      "src": "entypo",
+      "from": 62222
+    },
+    {
+      "search": [
+        "users",
+        "contacts",
+        "friends"
+      ],
+      "code": 128101,
+      "from": 128101,
+      "uid": "31972e4e9d080eaa796290349ae6c1fd",
+      "css": "users",
+      "orig_css": "users",
+      "orig_code": 128101,
+      "src": "fontawesome"
+    },
+    {
+      "search": [
+        "pin",
+        "pushpin"
+      ],
+      "code": 128204,
+      "from": 128204,
+      "uid": "794d73c3a5fcf710265679700e470578",
+      "file": "pin",
+      "css": "pin",
+      "orig_css": "pin",
+      "orig_code": 128204,
+      "src": "iconic"
+    }
+  ]
+}

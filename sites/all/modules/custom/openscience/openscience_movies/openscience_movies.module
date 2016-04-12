@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience Movies feature.
+ */
+
+include_once 'openscience_movies.features.inc';

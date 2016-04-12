@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience Calls feature.
+ */
+
+include_once 'openscience_calls.features.inc';

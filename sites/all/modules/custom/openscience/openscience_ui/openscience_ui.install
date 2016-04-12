@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function openscience_ui_install() {
+  if (module_exists('toolbar')) {
+    module_disable(array('toolbar'));
+  }
+  if (module_exists('shortcut')) {
+    module_disable(array('shortcut'));
+  }
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+}

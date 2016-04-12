@@ -1,0 +1,2765 @@
+@charset "UTF-8";
+
+
+// Main stylesheet for clarin.eu
+// Author: Jurriaan Roelofs
+
+// TABLE OF CONTENTS:
+// 0. VARIABLES AND MIXINS
+// 1. TYPOGRAPHY
+// 2. LAYOUT
+// 3. COMMON COMPONENTS
+// 4. STYLING PER APP
+// 5. FORMS
+// 6. COMMON ELEMENTS
+
+////
+//// [ 0 ] VARIABLES AND MIXINS
+////
+
+@import "compass/css3";
+@import "base";
+@import "drupal.mixins";
+
+@import "susy";
+
+// ---------------------------------------------------------------------------
+// Basic Grid
+
+// Grid variables
+$gutter: 30px;
+$indent: 7px;
+
+$total-columns  : 12;
+$column-width   : 65px;
+$gutter-width   : $gutter;
+$grid-padding   : 1.5%;
+
+// Colors
+$red: #9e0025;
+$blue: #52acda;
+$text: #666;
+$text2: #222;
+$grey: #e3e3e3;
+$lightgrey: #f3f3f3;
+
+// Font sizes
+$base: 15px;
+$teaser: 15px;
+$h1: 23px;
+$h2: 23px;
+$h3: 19px;
+$h4: 15px;
+
+@import "compass/utilities/tables";
+
+////
+//// [ 1 ] TYPOGRAPHY
+////
+
+body {
+  font-family: 'FrutigerLTW01-55Roman', Arial, helvetica, myriad, verdana, Sans-Serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color:$text;
+  font-size:$base;
+  word-wrap:break-word;
+}
+
+a {
+  color: $blue;
+  text-decoration:none;
+  &:hover, &:focus {
+    text-decoration:underline;
+  }
+}
+
+h1, h2, h3, h4 ,h5 ,h6 {
+  color:$text2;
+  font-weight:normal;
+  line-height:1.2em;
+}
+
+h1 {
+  font-size: $h1;
+}
+
+h2 {
+  font-size: $h2;
+}
+
+h3 {
+  font-size: $h3;
+}
+
+h4 {
+  font-size: $h4;
+}
+
+p {
+  margin:0 0 15px 0;
+}
+
+input {
+  @include box-sizing(border-box);
+}
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 20px;
+}
+
+hr {
+  clear:both;
+}
+
+table {
+  border:1px solid $lightgrey;
+  border-bottom:3px solid $red;
+  margin-bottom:$gutter;
+  background:#fff;
+  z-index:1;
+  position:relative;
+  font-size:$base - 2;
+  tr {
+    // @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.07)));
+    border-color:$lightgrey;
+    th {
+      padding:$indent $indent;
+      font-weight:normal;
+      font-size: $base - 2;
+      text-align:left;
+      color:#fff;
+      background:$red;
+      @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.35)));
+      a {
+        color:#fff;
+        text-decoration:underline;
+      }
+    }
+    td, th {
+      // border:1px solid $text;
+      border-bottom:1px solid #e6e6e6;
+      vertical-align:top;
+    }
+    td {
+      padding:$indent $indent;
+      border-color:$lightgrey;
+    }
+    &:nth-child(even) {
+      background:#fcfcfc;
+    }
+  }
+}
+
+////
+//// [ 2 ] LAYOUT STYLING
+////
+
+body {
+  background:#f9f9f9;
+}
+
+.container {
+  @include container;
+  position:relative;
+  // @include susy-grid-background;
+}
+
+// .content-column {
+//   position:relative;
+// }
+
+.wrap-columns {
+  position:relative;
+}
+
+body.peripheral-second .region-peripheral-second {
+  @include span-columns(3 omega);
+}
+
+body.peripheral-second .content-column {
+  @include span-columns(9);
+}
+
+body.peripheral-first .region-peripheral-first {
+  @include span-columns(3);
+}
+
+body.peripheral-first .content-column {
+  @include span-columns(9 omega);
+}
+
+body.two-peripherals .region-peripheral-first {
+  @include span-columns(3);
+}
+
+body.two-peripherals .region-peripheral-second {
+  @include span-columns(3 omega);
+}
+
+body.two-peripherals .content-column {
+  @include span-columns(6);
+}
+
+.region-content-top {
+  position:relative;
+}
+
+.mast {
+  background:#fff;
+  @include box-shadow(rgba(0,0,0,0.2) 0 0 5px);
+}
+
+.region-preblocks {
+  @include clearfix;
+  #block-bean-clarin-tweets {
+    margin-bottom:15px;
+    h2 {
+      font-size:$h3;
+    }
+  }
+  #block-bean-about-us {
+    @include span-columns(8 omega);
+    height:auto;
+  }
+  #block-bean-linkedin-block {
+    @include span-columns(2);
+  }
+}
+
+.wrap-columns {
+  clear:both;
+}
+
+
+////
+//// [ 3 ] COMMON COMPONENTS
+////
+
+.user-picture img {
+  width:auto!important; // fix in IE8
+}
+
+.views-exposed-form {
+  margin-bottom:$gutter / 2;
+  border:1px solid #e3e3e3;
+  border-right-width:2px;
+  padding:$indent;
+  @include border-radius(3px);
+  @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.05)));
+  label {
+    font-weight:normal;
+    color:$text;
+  }
+}
+
+.node-full.display-submitted {
+  .author-block {
+    @include span-columns(2 omega, 9);
+    padding:$indent;
+    margin-bottom:$gutter;
+    margin-left:$gutter;
+    @include background-image(linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.03)));
+    @include border-radius(3px);
+    @include box-sizing(border-box);
+    .user-picture {
+     width:25%;
+    }
+    h4 {
+      margin:0;
+    }
+    .date {
+      font-size:10px;
+    }
+  }
+  a.links {
+    margin-top:1em;
+    display:block;
+  }
+}
+
+.node-unpublished {
+  background:#fffce5;
+  &:before {
+    content: 'This node is not not published';
+    font-style:italic;
+    color:#840840
+  }
+}
+
+/* Minimize Formatting Guidelines */
+fieldset.filter-wrapper .fieldset-wrapper {
+  height:1em;
+  overflow:hidden;
+}
+
+.content-column {
+  .node-teaser {
+    @include background-image(linear-gradient(rgba(0,0,0,0.05), rgba(255,255,255,0)));
+    @include border-radius(3px);
+    @include clearfix;
+    padding:(2 * $indent) $indent 0 $indent;
+    position:relative;
+    margin-bottom:$gutter;
+    .user-picture {
+      @include span-columns(1,9);
+    }
+    .pane-second {
+      @include span-columns(8 omega, 9);
+      position:relative;
+      left:0;
+      .node-content {
+        width:auto;
+        padding:0;
+      }
+    }
+    .node-title {
+      margin-top:0;
+      margin-bottom:0;
+    }
+    .profile-picture img {
+      @include border-radius(3px);
+    }
+    .byline {
+      @include opacity(0.5);
+      @include single-transition(opacity, 400ms);
+    }
+    .links {
+      padding:0;
+      margin:0;
+      @include opacity(0.7);
+      @include single-transition(opacity, 400ms);
+      display:block;
+      clear:both;
+      text-align:right;
+      li {
+        display:inline;
+        list-style:none;
+        a {
+          text-decoration:underline;
+          margin:0;
+          &:hover, &:focus {
+            text-decoration:none;
+          }
+        }
+      }
+    }
+    &:hover {
+      .byline,
+      .links {
+        @include opacity(1);
+      }
+    }
+  }
+}
+
+nav {
+  ul {
+    margin:0;
+    padding:0;
+    li {
+      margin:0;
+      padding:0;
+      display:inline;
+    }
+  }
+}
+
+#block-menu-menu-secondary-menu {
+  header {
+    @include element-invisible;
+  }
+  background:$grey;
+  padding-top:5px;
+  padding-bottom:5px;
+  font-size:$base;
+  z-index:5;
+  > ul {
+    @include container;
+  }
+  li {
+    margin-right:25px;
+    position:relative;
+    display:block;
+    float:left;
+    color:$text2;
+    &.expanded > a:after,
+    &.expanded > .nolink:after {
+      content:' ▼';
+      @include opacity(0.75);
+      color:$text2;
+      font-size:(10px);
+      margin-top:-3px;
+    }
+    a {
+      color:$text2;
+      text-decoration:none;
+      &:hover, &:focus {
+        text-decoration:underline;
+      }
+    }
+    ul {
+      position:absolute;
+      background:$grey;
+      top:24px;
+      left:-999999px;
+      @include box-shadow(rgba(0,0,0,0.4) 0 0 4px);
+      li {
+        width:200px;
+        margin:0;
+        padding:0;
+        a {
+          padding:0 $indent;
+          display:block;
+          font-size:$base - 2;
+          outline:1px solid #ddd;
+          height:30px;
+          line-height:30px;
+          overflow:hidden;
+          &:hover, &:focus {
+            background:#ccc;
+            text-decoration:none;
+          }
+        }
+        &.expanded > a:after,
+        &.expanded > .nolink:after {
+          content:' ►';
+        }
+        ul  {
+          margin:0 0 0 160px;
+          top:0;
+        }
+      }
+    }
+    &:hover, &:focus {
+      ul {
+        left: auto;
+        li {
+          ul {
+            left:-999999px;
+          }
+          &:hover, &:focus {
+            ul {
+              left: auto;
+              li {
+                ul {
+                  left:-999999px;
+                }
+                &:hover, &:focus {
+                  ul {
+                    left: auto;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#block-system-main-menu {
+  header {
+    @include element-invisible;
+  }
+  background:$red;
+  @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.35)));
+  @include span-columns(10 omega);
+  ul {
+    @include container;
+    padding-top:13px;
+    padding-bottom:10px;
+    font-size:$h3;
+    letter-spacing:0.5px;
+    // float:left;
+    li {
+      margin-right:25px;
+      position:relative;
+      display:block;
+      float:left;
+      &.expanded > a:after,
+      &.expanded > span:after {
+        content:' ▼';
+        @include opacity(0.75);
+        color:#fff;
+        font-size:(10px);
+        margin-top:-3px;
+      }
+      a, span {
+        color:#fff;
+        text-decoration:none;
+        padding-bottom:10px;
+        padding-top:10px;
+        &:hover, &:focus {
+          text-decoration:underline;
+        }
+      }
+      ul {
+        position:absolute;
+        top:32px;
+        left:-999999px;
+        background:$red;
+        z-index:10;
+        @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.35)));
+        li {
+          width:180px;
+          margin:0;
+          padding:0;
+          a, span {
+            padding:$indent;
+            display:block;
+            font-size:$base - 2;
+            letter-spacing:0;
+          }
+          ul {
+            margin-left:120px;
+            top: -15px;
+          }
+        }
+      }
+      &:hover, &:focus {
+        ul {
+          left: auto;
+          li {
+            ul {
+              left:-999999px;
+            }
+            &:hover, &:focus {
+              ul {
+                left: auto;
+                li {
+                  ul {
+                    left:-999999px;
+                  }
+                  &:hover, &:focus {
+                    ul {
+                      left: auto;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .social-menu {
+    float:right;
+    ul {
+      li {
+        display:inline-block;
+        a {
+          display:inline-block;
+          text-decoration:none;
+          text-indent:-99999px;
+          width:28px;
+          height:28px;
+          margin:11px 0 11px 8px;
+          background: url('../images/twitter-grey.png');
+        }
+        &.flickr-link a { background-image: url('../images/flickr-grey.png') }
+        &.youtube-link a { background-image: url('../images/youtube-grey.png'); height:27px; }
+      }
+    }
+  }
+}
+
+/**
+Stylesheet for SooperFish by www.SooperThemes.com
+Author: Jurriaan Roelofs
+*/
+
+html body ul#nav ul
+,html body ul#nav ul li {
+width:200px;
+}
+html body ul#nav ul ul {
+margin:0 0 0 200px;
+}
+
+.masthead {
+  padding-top:14px;
+  padding-bottom:$gutter/2;
+  z-index:5;
+  img {
+    margin-left:5px;
+    padding:0 7% 0 0;
+    display:inline-block;
+    height: 98px;
+    @media screen and (max-width:1090px) {
+      padding:0 4% 0 0;
+    }
+    @media screen and (max-width:850px) {
+      padding:0 2% 0 0;
+    }
+    @media screen and (max-width:750px) {
+      padding:0 0 0 0;
+    }
+  }
+  .block-search {
+    float:right;
+    clear:right;
+    overflow:hidden;
+    padding:$indent;
+    margin:$indent 0 0 0;
+    @include background-image(linear-gradient(rgba(0,0,0,0.03), rgba(0,0,0,0.12)));
+    @include border-radius(3px);
+    input.form-text {
+      @include box-sizing(content-box);
+      height:24px;
+      padding-left:5px;
+      padding:3px 10px;
+      margin:0;
+      background:#fff;
+      border:none;
+      display:block;
+      float:left;
+      width:200px;
+      @include border-radius(0);
+    }
+    input.form-submit {
+      height:24px;
+      @include box-sizing(content-box);
+      display:block;
+      float:left;
+      background:$red;
+      @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.35)));
+      color:#fff;
+      border:none;
+      padding:3px 10px;
+      margin:0;
+      @include border-radius(0);
+      &:hover, &:focus {
+         @include background-image(none);
+      }
+    }
+  }
+}
+
+.section-title {
+  // position:absolute;
+  // right:$gutter + $indent;
+  top:50px;
+  color:$red;
+}
+
+nav.breadcrumb {
+  background:$lightgrey;
+  overflow:hidden;
+  padding:0;
+  border:1px solid;
+  border-color: transparent #f0f0f0 #e9e9e9 #f0f0f0;
+  margin-bottom:$gutter / 2;
+  div {
+    display:block;
+    float:left;
+    span.inline {
+      display:block;
+      float:left;
+      overflow:hidden;
+      a {
+        display:block;
+        float:left;
+        position:relative;
+        padding-right:15px;
+        margin-right:15px;
+        padding:$indent;
+        color:$text;
+        &:after {
+          content: ' ';
+          display:block;
+          border:1px solid;
+          border-color:transparent $text $text transparent;
+          width:35px;
+          height:35px;
+          position:absolute;
+          top:-2px;
+          right:0;
+          @include border-radius(2px);
+          @include rotate(-45deg);
+          @include opacity(0.4);
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  clear:both;
+  background:$grey;
+  padding:10px 7px 13px 7px;
+  margin:0 0 $gutter 0;
+  font-size:$base - 2;
+  @include clearfix;
+  overflow:hidden;
+  border-top:60px solid #fff;
+  p {
+    float:left;
+    margin:0;
+  }
+  .footer-menu {
+    float:right;
+  }
+}
+
+article {
+  margin-bottom:30px;
+  .node-content {
+    padding-left:$indent;
+    padding-right:$indent;
+    @include box-sizing(border-box);
+  }
+}
+
+.block-title {
+  margin:0 0 15px 0;
+  clear:both;
+  @include clearfix;
+  @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.09)));
+  @include border-radius(3px);
+  background-repeat:no-repeat;
+  // background-position:0 10px;
+  padding:5px $indent 5px $indent;
+  color:$red;
+  h2, h3 {
+    color:$red;
+    margin:0;
+    float:left;
+  }
+  span.long-title {
+    font-size:$base;
+    margin-left:$gutter / 4;
+    color:$text;
+  }
+}
+
+.node-full .file-default img,
+.node-full .field-attachments img {
+  float:none;
+  margin:0;
+}
+
+.pager {
+  ul {
+    margin:0;
+    padding:0;
+    text-align:center;
+    li {
+      margin:0 $gutter / 4;
+    }
+  }
+}
+
+.front {
+  .block-title {
+    text-align:center;
+    margin-bottom:$gutter;
+  }
+}
+
+.page-title {
+  font-size:1.2*$h1;
+  background:$lightgrey;
+  padding:$indent;
+  color:$red;
+  margin:15px 0 15px 0;
+}
+
+.more-link {
+  clear:both;
+  float:right;
+  a {
+    &:after {
+      content: ' >';
+    }
+  }
+}
+
+nav.filter,
+nav.block-menu-block {
+  ul {
+    margin-top:-15px;
+    li {
+      display:block;
+      border-top:1px solid $grey;
+      font-size:$h4;
+      a {
+        display:block;
+        padding:10px $indent 10px $indent;
+      }
+    }
+  }
+}
+
+.peripheral .view,
+.peripheral #block-openscience-showcases-openscience-showcases-filter {
+  ul, ol {
+    padding:0;
+    margin-top:-9px;
+    margin-bottom:0;
+    li {
+      display:block;
+      border-top:1px solid $grey;
+      a {
+        display:block;
+        padding:10px $indent 10px $indent;
+        @include box-sizing(border-box);
+      }
+    }
+  }
+}
+
+nav.block-menu-block,
+.view-openscience-governance-filter {
+  border:1px solid $lightgrey;
+  border-top:none;
+  ul {
+    // @include background-image(linear-gradient(left, $lightgrey, rgba(255,255,255,0)));
+    padding:0;
+    margin-top:-15px;
+    margin-bottom:0;
+    li {
+      display:block;
+      margin:0;
+    }
+    ul {
+      margin:-1px 0 0 0;
+      li {
+        a {
+          padding-left:$indent * 3;
+          // padding-top:4px;
+          // padding-bottom:4px;
+        }
+      }
+      ul li a {
+        padding-left:$indent * 6;
+      }
+      ul ul li a {
+        padding-left:$indent * 9;
+      }
+    }
+  }
+}
+
+.peripheral nav,
+.peripheral article,
+.peripheral .view {
+  border-bottom:2px solid $red;
+  margin-bottom:$gutter;
+  .view-all {
+    margin-bottom:$gutter / 2;
+  }
+}
+
+.peripheral nav.block-menu-block,
+.peripheral .view-openscience-governance-filter {
+  ul li {
+    a {
+      @include single-transition(all, 300ms);
+      &:hover, &:focus {
+        background:$grey;
+        text-decoration:none;
+      }
+    }
+    a.active {
+      color:#fff;
+      background:$blue;
+    }
+  }
+}
+
+.peripheral nav.block-menu-block {
+  ul.menu {
+    li ul.menu {
+      display: none;
+    }
+    li.active-trail ul.menu {
+      display:block;
+    }
+  }
+}
+
+#block-openscience-groups-openscience-groups-node-links,
+.foldout {
+  .contextual-links-wrapper { display:none; }
+  @include span-columns(2 omega, 9);
+  // @include clearfix;
+  min-height:27px;
+  position:absolute;
+  z-index:2;
+  right:$indent;
+  top:$indent;
+  background:$red;
+  color:#fff;
+  @include border-radius(3px);
+  .block-title,
+  h3 {
+    padding:0 2*$indent;
+    color:#fff;
+    font-size:14px;
+    line-height:28px;
+    cursor:default;
+    margin:0;
+    background:none;
+    &:after {
+      content: '▼';
+      font-family:arial, helvetica, sans-serif;
+      position:absolute;
+      right:0;
+      top:0;
+      z-index:2;
+      color:#fff;
+      font-size:11px;
+      line-height:28px;
+      height:28px;
+      @include scaleX(1.4);
+      padding:0 10px 0 4px;
+      border-left:1px solid #fff;
+    }
+  }
+  ul {
+    height:0;
+    overflow:hidden;
+    margin:0;
+    @include single-transition(all, 100ms);
+    li {
+      display:block;
+      a {
+        display:block;
+        float:left;
+        width:100%;
+        clear:both;
+        height:2.4em;
+        color:#fff;
+        font-size:13px;
+        position:relative;
+        &:after {
+          content : '\2795'; // Plus circle
+          font-family: 'fontello';
+          speak: none;
+          position:absolute;
+          right:0;
+          // margin-top:2px;
+          font-size:16px;
+          @include single-transition(all, 90000ms);
+        }
+        &.active {
+          text-decoration:underline;
+        }
+      }
+    }
+  }
+}
+
+#block-openscience-events-openscience-events-date-widget {
+  top:-4.7em;
+  ul li a:after {
+    content: '»';
+  }
+}
+
+#block-openscience-groups-openscience-groups-node-links {
+  ul li:hover,
+  ul li:focus {
+    a:after {
+      @include rotate(36000deg);
+    }
+  }
+}
+
+#block-openscience-groups-openscience-groups-node-links:hover,
+#block-openscience-groups-openscience-groups-node-links:focus,
+.foldout:hover,
+.foldout:focus {
+  .block-title,
+  h3 {
+    border-bottom:1px solid rgba(255,255,255,0.75);
+  }
+  ul {
+    height:auto;
+    margin:1em 0;
+    padding:5px 2*$indent;
+  }
+}
+
+.show-more {
+  text-align:center;
+  padding-top:$gutter;
+  clear:both;
+}
+
+.view-filters {
+  @include clearfix;
+  background:$lightgrey;
+  margin:0 0 $gutter 0;
+  padding:$indent;
+  form {
+    @include prefix(1, 9);
+    label {
+      display:block;
+      font-size:$h4;
+      float:left;
+      font-weight:normal;
+      position:relative;
+      top:4px;
+    }
+    select {
+      font-size:$base - 2;
+      float:left;
+      margin-left:$gutter /3;
+    }
+    .form-submit {
+      margin:0 0 0 ($gutter / 3) !important;
+      float:left;
+      padding:3px 6px;
+      font-size:13px;
+    }
+  }
+  div {
+    float:left;
+    padding:0!important;
+    margin:0!important;
+  }
+}
+
+.comment-wrapper {
+  font-size:$base - 2px;
+  clear:both;
+  .comment {
+    @include border-radius(3px);
+    @include clearfix;
+    margin-bottom:$gutter / 2;
+    h3 {
+      margin:0;
+      @include background-image(linear-gradient(rgba(0,0,0,0.07), rgba(0,0,0,0)));
+      @include border-radius(3px);
+      padding:$indent;
+      a {
+        color:$text2;
+      }
+    }
+    .byline {
+      padding:0 $indent;
+      margin:0;
+      float:left;
+    }
+    .comment-content {
+      padding:$indent;
+    }
+    .links {
+      padding:0 $indent;
+      margin:0;
+      float:right;
+      li {
+        display:inline;
+        list-style:none;
+        margin-left:5px;
+      }
+    }
+    .pane-last {
+      margin:-$gutter / 2 0 0 0;
+      @include opacity(0.5);
+      @include single-transition(opacity, 400ms);
+      @include clearfix;
+      padding:$indent;
+    }
+    &:hover, &:focus {
+      .pane-last {
+        @include opacity(1);
+      }
+    }
+  }
+}
+
+div.buttons .links,
+.field-group-register {
+  margin:0;
+  padding:0;
+  position:absolute;
+  z-index:2;
+  right:$indent;
+  top:-46px;
+  a {
+    @include border-radius(3px);
+    margin-left:$gutter / 2;
+    background:$red;
+    @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.35)));
+    color:#fff;
+    padding:4px 6px;
+    display:block;
+  }
+  li {
+    list-style:none;
+    float:left;
+    // @include clearfix;
+    color:#fff;
+    position:relative;
+    .flag-throbber {
+      position:absolute;
+      top:20px;
+      left:-20px;
+    }
+    .flag-message {
+      color:$text;
+    }
+  }
+  a {
+    &:hover, &:focus {
+      text-decoration:none;
+    }
+    &:before {
+      content : '•'; // Comment icon
+      speak: none;
+      margin-right:0.3em;
+      margin-left:0.15em;
+      font-size:18px;
+      line-height:0.9em;
+      display: inline-block;
+    }
+    &:hover, &:focus {
+      &:before {
+        @include scale(1.4);
+      }
+    }
+  }
+  .flag-openscience_featured a:before {
+    content:'\2691';
+    font-family:fontello;
+  }
+  .flag-openscience_sticky a:before {
+    content:'\1f4cc';
+    font-family:fontello;
+    font-size:15px;
+  }
+  .registration a:before {
+    content:'\e700';
+    font-family:fontello;
+    font-size:15px;
+  }
+}
+
+
+////
+//// [ 4 ] STYLING PER APP
+////
+
+//
+// Featured Slider
+//
+
+.region-featured {
+  background:$red;
+  @include box-shadow(rgba(0,0,0,0.5) 0 0 1px);
+  @include border-radius(3px);
+  @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.35)));
+  overflow:hidden;
+  color:#fff;
+  margin-bottom:$gutter;
+  height:300px;
+  h1, h2, h3, h4, h5, h6 {
+    color:#fff;
+  }
+  .flex-direction-nav a {
+    opacity:0;
+    @include single-transition(opacity, 700ms);
+  }
+  &:hover, &:focus {
+    .flex-direction-nav a {
+      opacity:1;
+    }
+  }
+  #block-views-openscience-ui-block {
+    @include clearfix;
+    margin:0;
+    position:relative;
+    ul, li {
+      margin:0;
+      padding:0;
+      list-style:none;
+      list-style-type:none;
+    }
+    img {
+      @include span-columns(8);
+    }
+    .field-movie {
+      // float:left;
+      @include span-columns(8);
+      iframe {
+        margin:0 auto;
+        width:450px;
+        float:none;
+        display:block;
+      }
+    }
+    .pane-second {
+      @include span-columns(4 omega);
+      padding-right:30px;
+      @include box-sizing(border-box);
+      h3 {
+        line-height:1.3em;
+        // max-height: 3.9em;
+        // overflow:hidden;
+        a {
+          color:#fff;
+        }
+      }
+      p {
+        line-height:1.3em;
+        // max-height:6.9em;
+        // overflow:hidden;
+      }
+      >a {
+        font-size:$h3;
+        color:#fff;
+        text-decoration:none;
+        display:block;
+        float:right;
+        line-height:1em;
+        &:after {
+          content: ' >';
+          font-size:($h3*0.618);
+        }
+        &:hover, &:focus {
+          text-decoration:underline;
+        }
+    }
+    }
+  }
+}
+
+//
+// Basic Pages App
+//
+
+.node-full {
+  table {
+    width:100%;
+  }
+}
+
+.comments {
+  @include span-columns(9, 9);
+}
+
+//
+// Twitter App
+//
+
+#block-bean-clarin-tweets {
+  text-align:center;
+  @include callout;
+  .block-title {
+    &:before {
+      content : '\f099'; // Twitter icon
+      font-family: 'fontello';
+      speak: none;
+      margin-right:0.3em;
+      font-size:23px;
+      display: inline-block;
+      @include single-transition(all, 200ms);
+    }
+  }
+  &:hover, &:focus {
+    .block-title:before {
+      @include rotate(45deg);
+    }
+
+  }
+  ul {
+    padding:0;
+    margin:0;
+    li {
+      list-style:none;
+      span {
+        @include opacity(0.85);
+        display:block;
+        margin:0 0 3px 0;
+      }
+      .tweet-text {
+        font-size:$teaser;
+        margin:0;
+        padding:0;
+        line-height:$h2;
+        &:before {
+          content:'“';
+          font-size:$h3;
+          line-height:$h2;
+        }
+        &:after {
+          content:'”';
+          font-size:$h3;
+          line-height:$h2;
+        }
+      }
+      .tweet-time,
+      .tweet-author {
+        font-size:11px;
+      }
+      .tweet-time {
+        padding-top:1em;
+      }
+      .tweet-authorphoto {
+        display:none;
+      }
+    }
+  }
+  .flex-control-nav {
+    position:absolute;
+    bottom:5px;
+    left:0;
+    width:100%;
+  }
+}
+
+body.page-null-front.logged-in .region-preblocks #block-bean-clarin-tweets {
+  @include span-columns(4);
+}
+
+//
+// Open Science Groups App
+//
+
+.group-update {
+  @include card-style;
+  padding-bottom:$indent;
+  // min-height:151px;
+  border-left-color:$text;
+  position:relative;
+  margin-bottom:$gutter/2;
+  h3 {
+    font-size:$base;
+    margin:10px 0;
+    height:3.6em;
+    overflow:hidden;
+  }
+  span {
+    // color: $red;
+    margin:0 0 3px 0;
+    font-size:11px;
+    display:block;
+    width:74%;
+    height:1.3em;
+    overflow:hidden;
+    &:before {
+      content: '●';
+      color: $text;
+      font-size:10px;
+      position:relative;
+      top:-1px;
+      margin-right:3px;
+    }
+    a {
+
+    }
+  }
+  > a {
+    position:absolute;
+    right:7px;
+    bottom:7px;
+    width:25%;
+    img {
+      display:block;
+      float:left;
+      border:1px solid $blue;
+    }
+    &:before {
+      content: '';
+    }
+  }
+  .timeago {
+    color:$text;
+    &:before {
+      content: '';
+    }
+  }
+}
+
+.field-group-register {
+  position: absolute;
+  margin-right:165px;
+  a:before {
+    content:'\1f465';
+    font-family:fontello;
+    font-size:14px;
+  }
+}
+
+.node-type-group {
+  .buttons .links,
+  .field-group-register {
+    top:-46px;
+  }
+  .buttons .links {
+    .flag-wrapper {
+      position:relative;
+    }
+    li {
+      background:none;
+    }
+    a {
+      text-indent:-999999px;
+      display:block;
+      width:151px;
+      height:27px;
+      padding:0;
+      background: url('../images/group-vis-flag-private.png');
+      &.unflag-action {
+        background: url('../images/group-vis-flag-public.png');
+      }
+    }
+  }
+}
+
+.field-private-files {
+  td {
+    font-size:$base - 2;
+    img {
+      margin:0;
+      float:none;
+    }
+  }
+}
+
+.node-teaser.node-discussion .node-title a {
+  &:before {
+    content : '\f0e6'; // Comment icon
+    font-family: 'fontello';
+    speak: none;
+    margin-right:0.3em;
+    font-size:23px;
+    display: inline-block;
+  }
+  &:hover, &:focus {
+    &:before {
+      @include scale(1.4);
+    }
+  }
+}
+
+.node-teaser.node-sticky .node-title {
+  position:relative;
+  &:after {
+    content : '\1f4cc'; // Pin icon
+    font-family: 'fontello';
+    speak: none;
+    margin-right:0.3em;
+    font-size:23px;
+    display: inline-block;
+    float:right;
+    color:$red;
+  }
+  &:hover, &:focus {
+    &:after {
+      @include scale(1.4);
+    }
+  }
+}
+
+body.front #block-views-openscience-group-updates-block {
+  @include span-columns(8 omega);
+  ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+    li {
+      @include span-columns(2, 8);
+      @include nth-omega(4n);
+      margin-left:0;
+    }
+  }
+}
+
+body.page-os-groups-mine {
+  .region-peripheral-second {
+    @include span-columns(4 omega);
+  }
+  .content-column {
+    @include span-columns(8);
+    table {
+      width:100%;
+      margin-top:-15px;
+      td {
+        width:25%;
+        font-size:$base - 3;
+        color:#555;
+        &.group {
+          font-size:$h4;
+          a {
+            display:block;
+            margin-left:18px;
+          }
+        }
+        ul {
+          margin:0;
+          padding:0;
+          li {
+            list-style:none;
+          }
+        }
+      }
+    }
+  }
+  #block-views-openscience-groups-block {
+    ol {
+      li {
+        font-size:$h4;
+      }
+    }
+  }
+  #block-views-f6897ef1318bf09daf2b99921130e4e8 {
+    clear:both;
+    ul {
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .group-update {
+      @include span-columns(2);
+      @include nth-omega(6n);
+    }
+  }
+}
+
+body.page-os-groups-mine-1 {
+  .content-column {
+    @include span-columns(12);
+  }
+}
+
+.views-field-openscience-groups-latest-post {
+  a {
+    display:block;
+  }
+}
+
+.og-context {
+  #block-openscience-groups-openscience-groups-group-comp {
+    // @include callout;
+    .group-owner {
+      @include clearfix;
+    }
+    .user-picture {
+      @include span-columns(1, 3);
+      @include border-radius(2px);
+    }
+    .group-owner .username {
+      font-size:$h3;
+    }
+    .username, h4 {
+      @include span-columns(2 omega, 3);
+      margin:0;
+    }
+    h3 {
+      clear:both;
+      @include span-columns(2 omega, 3);
+      font-size:$h4;
+    }
+    h4 {
+      @include opacity(0.75);
+    }
+    ul {
+      margin:0;
+      padding:0;
+      li {
+        list-style:none;
+        clear:both;
+        margin:0 0 $gutter/3 0;
+        @include clearfix;
+      }
+    }
+  }
+}
+
+.group-color {
+  display:block;
+  float:left;
+  width:11px;
+  height:11px;
+  background:$text;
+  margin-top:0.3em;
+  margin-right:6px;
+  @include border-radius(3px);
+  @include opacity(0.7);
+}
+
+nav li .group-color {
+  margin-top:0.9em;
+}
+
+//
+// Open Science Popular Content
+//
+
+#block-views-df41f827af8e020964cab78e9fff8e94 {
+  ol {
+    margin:-15px 0 0 0;
+    padding:0;
+    li {
+      a {
+        color:#fff;
+        padding:0;
+      }
+      position:relative;
+      margin-top:1px;
+      cursor:pointer;
+      margin-bottom:2px;
+      background:$grey;
+      @include single-transition(background-color, 300ms);
+      @include box-sizing(border-box);
+      min-height:174px;
+      img {
+        width:100%;
+        height:140px;
+        display:block;
+        @include opacity(0.85);
+        @include single-transition(opacity, 300ms);
+        border-bottom:2px solid $blue;
+      }
+      h4 {
+        background:$blue;
+        // @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.2)));
+        @include single-transition(background-color, 300ms);
+        padding:$indent;
+        margin:0;
+      }
+      div {
+        position:absolute;
+        bottom:$indent;
+        left:$indent;
+        padding:0 3px;
+        color:$lightgrey;
+        background:$red;
+        font-size:$base - 2px;
+        a {
+          color:#fff;
+        }
+        &:hover {
+          font-size:$base;
+        }
+      }
+      a {
+        // text-decoration:underline;
+        &:hover, &:focus {
+          text-decoration:none;
+        }
+      }
+      &:hover {
+        background-color:$red;
+        img {
+          @include opacity(1);
+        }
+        h4 {
+          background-color:$red;
+        }
+        a {
+          text-decoration:underline;
+        }
+      }
+      &.no-image {
+        min-height:0;
+        h4 a {
+          padding:$indent 0;
+        }
+      }
+    }
+  }
+}
+
+//
+// Open Science Events App
+//
+
+.section-events .view-openscience-events {
+  h3 {
+    margin:0;
+    clear:both;
+    @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.09)));
+    @include border-radius(3px);
+    background-repeat:no-repeat;
+    // background-position:0 10px;
+    padding:5px $indent 5px $indent;
+    color:$red;
+  }
+  .views-list {
+    margin:0;
+    padding:0;
+    li {
+      list-style:none;
+      clear:both;
+      padding:($gutter / 2) 0;
+      border-bottom:1px solid $grey;
+      @include clearfix;
+      h4 {
+        font-size:$h2;
+        margin:0 0 10px 0;
+      }
+      div, span {
+        @include inline-box;
+        display:inline;
+        float:none;
+        margin:0 5px 0 0;
+      }
+      div {
+        float:right
+      }
+    }
+  }
+
+  table {
+    width:100%;
+    div, span {
+      font-size:$base - 2;
+    }
+    a {
+      display:block;
+      width:200px;
+    }
+  }
+}
+
+.section-events .content-column .node-full .node-content {
+  .field-image {
+    @include span-columns(5, 9);
+    @include squish(2,2, 9);
+    text-align:center;
+    float:left;
+    img {
+      float:none;
+    }
+
+  }
+}
+
+
+
+//
+// Webforms App
+//
+
+.node-type-webform .content-column {
+  @include span-columns(8 omega);
+  @include pad(2, 2);
+}
+
+//
+// Video App
+//
+
+.view-openscience-movies {
+  clear:both;
+  @include clearfix;
+  .block-title {
+    text-align:center;
+  }
+  ul {
+    margin:0;
+    padding:0;
+    li {
+      @include span-columns(3);
+      @include nth-omega(4n);
+      position:relative;
+      margin-bottom:10px;
+      h3 {
+        margin:0 0 15px 0;
+        height:2em;
+      }
+      img {
+        border: 4px solid $grey;
+        &:hover {cursor:pointer;}
+      }
+      // a:before {
+      //   content:' ';
+      //   display:block;
+      //   text-decoration:none;
+      //   position:absolute;
+      //   top:50%;
+      //   left:50%;
+      //   margin-left:-30px;
+      //   margin-top:-12px;
+      //   background:$blue;
+      //   @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.2)));
+      //   width:60px;
+      //   height:60px;
+      //   @include border-radius(60px);
+      //   @include single-transition(all, 200ms);
+      // }
+      // a:after {
+      //   content: '►';
+      //   font-family:arial, helvetica, sans-serif;
+      //   z-index:2;
+      //   color:#fff;
+      //   @include opacity(0.95);
+      //   font-size:30px;
+      //   line-height:1em;
+      //   position:absolute;
+      //   top:51%;
+      //   left:46%;
+      //   @include scaleY(1.4);
+      //   margin:0;
+      // }
+    }
+  }
+}
+
+//
+// Showcases app
+//
+
+.showcases {
+  margin:0 0 $gutter 0;
+  @include clearfix;
+}
+
+.view-openscience-showcases .views-row {
+  // @include span-columns(4);
+  // @include nth-omega(3n);
+  // @include card-style;
+  // h3 {
+  //   margin:0;
+  //   line-height:1.3em;
+  //   margin:0 0 ($gutter/2) 0;
+  //   height:2.6em;
+  //   overflow:hidden;
+  // }
+  // h3 a {
+  //   text-decoration:none;
+  //   font-size:$h4;
+  //   &:hover, &:focus {
+  //     text-decoration: underline;
+  //   }
+  // }
+  // a {
+  //   &:hover, &:focus {
+  //     color:$blue;
+  //     text-decoration:underline;
+  //   }
+  // }
+}
+
+div.centre, div.leader {
+  color: #666;
+  @include inline-box;
+}
+
+body.front .showcases {
+  clear:both;
+  @include clearfix;
+}
+
+.section-showcases {
+  .peripheral-first {
+    @include span-columns(3);
+  }
+  .view-openscience-showcases {
+    .views-row {
+      // @include span-columns(3, 9);
+      // @include nth-omega(3n);
+      // div.centre, div.leader {
+      //   display:block;
+      //   clear:both;
+      //   margin-top:5px;
+      // }
+    }
+  }
+}
+
+//
+// Blog app
+//
+
+#block-views-openscience-blog-block-1 {
+  .view {
+    @include clearfix;
+  }
+  li {
+    clear:both;
+    a {
+      padding-left:0;
+      @include clearfix;
+    }
+  }
+  .user-picture {
+    @include span-columns(1, 3);
+  }
+  .username {
+    @include span-columns(2 omega, 3);
+    text-transform:capitalize;
+  }
+}
+
+//
+// Governance App
+//
+
+body.section-governance .region-peripheral-second {
+  @include span-columns(3);
+  #block-views-df41f827af8e020964cab78e9fff8e94 {
+    display:none;
+  }
+}
+
+.node-member img {
+  max-width: none;
+}
+
+body.section-governance .content-column {
+  @include span-columns(9 omega);
+  .item-list ul {
+    margin: 0;
+    padding:0;
+    li {
+      margin:0;
+      padding:0;
+      @include span-columns(2, 9);
+    }
+  }
+  .node-member {
+    background:none;
+    @include border-radius(0);
+    .pane-second {
+      width:100%;
+      float:none;
+      display:block;
+    }
+    h2 {
+      margin:0;
+      font-size:$h4;
+      height:2.6em;
+      padding-bottom:$indent;;
+      overflow:hidden;
+      padding-left:$indent;
+      padding-right:$indent;
+      display:table-cell;
+      vertical-align:bottom;
+      a {
+        color:$text2;
+        text-decoration:underline;
+        &:hover, &:focus {
+          text-decoration:none;
+        }
+      }
+    }
+    img {
+      display:block;
+    }
+    &.node-teaser {
+      margin-bottom: 0;
+      .node-content {
+        margin-bottom:$gutter / 2;
+        padding:0;
+        height: 220px;
+      }
+      .field-image {
+        border:2px solid $text;
+        width:100%;
+        @include box-sizing(border-box);
+        overflow:hidden;
+      }
+      .field-job-title {
+        font-size:12px;
+        height:3.9em;
+        padding-bottom:$indent;;
+        overflow:hidden;
+        clear:both;
+        padding-left:$indent;
+        padding-right:$indent;
+      }
+
+    }
+    &.node-full {
+      width:100%;
+      margin:0;
+      .node-content {
+        margin:0;
+        > h3,
+        > div {
+          @include span-columns(7 ,9);
+          clear:none;
+          margin-top:0;
+          @include box-sizing(border-box);
+        }
+        > h3 {
+          margin-bottom: 0;
+        }
+        > div {
+          margin-bottom: 1.6em;
+        }
+        .field-image {
+          border:none;
+          height:auto;
+          @include span-columns(2 omega,9);
+          @include box-sizing(border-box);
+        }
+      }
+    }
+  }
+}
+
+
+// unsorted
+
+#block-views-openscience-events-block {
+  position:relative;
+  clear:both;
+  @include clearfix;
+  .flex-viewport {
+    border-left:1px solid $grey;
+    border-right:1px solid $grey;
+    @include border-radius(3px);
+    width:100%;
+    @include box-sizing(border-box);
+    padding-bottom: 15px;
+  }
+  .flex-direction-nav {
+    top: auto;
+    bottom: 8em;
+  }
+  .block-title {
+    text-align:center;
+    margin-bottom:$gutter;
+  }
+  .view {
+    margin:0 0 $gutter 0;
+    ol {
+      margin:0;
+      padding:0;
+      @include clearfix;
+      li {
+        @include background-image(linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.05)));
+        margin:0;
+        padding:0;
+        list-style:none;
+        float:left;
+        width:25%;
+        padding:$gutter/2;
+        border:1px solid $grey;
+        border-width:1px 1px 1px 0;
+        // @include box-sizing(border-box);
+        p {
+          height:5em;
+          overflow:hidden;
+        }
+        h3 {
+          margin:0 0 $gutter/3 0;
+          height:2.4em;
+          overflow:hidden;
+          a {
+            text-decoration:none;
+            &:hover, &:focus {
+              text-decoration:underline;
+            }
+          }
+        }
+        .location,
+        .timeago {
+          color:$red;
+        }
+        .location {
+          height:2.4em;
+        }
+      }
+    }
+  }
+  &:hover, &:focus {
+    .flex-direction-nav li a.flex-disabled {
+      @include opacity(0);
+    }
+    .flex-direction-nav li a {
+      @include opacity(1);
+    }
+  }
+  .more-link {
+    position:absolute;
+    bottom:0;
+    right:0;
+  }
+}
+
+#block-views-openscience-news-block,
+#block-views-openscience-news-block-1,
+#block-views-openscience-blog-block,
+#block-views-openscience-blog-block-2 {
+  @include span-columns(6);
+  .block-title {
+    margin-bottom: $gutter;
+  }
+  article {
+    @include clearfix;
+    margin-bottom:$gutter/2;
+    .user-picture {
+      @include span-columns(1, 6);
+    }
+    .pane-second {
+      @include span-columns(5 omega, 6);
+    }
+    h2 {
+      margin:0;
+      margin-top:-4px;
+      a {
+        text-decoration:none;
+        &:hover, &:focus {
+          text-decoration:underline;
+        }
+      }
+    }
+    .node-content {
+      padding:0;
+    }
+    p {
+      margin:0;
+    }
+    footer {
+      text-transform:uppercase;
+      color:#444;
+      margin-bottom:$gutter/2;
+    }
+  }
+  &#block-views-openscience-blog-block,
+  &#block-views-openscience-blog-block-2 {
+    @include omega;
+  }
+}
+
+// CLARIN Centre Colors
+
+.container {
+  article[data-centre=ING] {
+    border-left-color: tomato;
+  }
+  article[data-centre=DANS] {
+    border-left-color: purple;
+  }
+  article[data-centre=Huygens-ING] {
+    border-left-color: orange;
+  }
+  article[data-centre=MPI] {
+    border-left-color: teal;
+  }
+  article[data-centre=MPI] {
+    border-left-color: gold;
+  }
+  article[data-centre=DANS] {
+    border-left-color: green;
+  }
+}
+
+//
+// CLARIN ERIC Portal
+//
+
+.front {
+  .breadcrumb {
+    display:none;
+  }
+}
+
+.not-logged-in.front,
+.page-guest-portal {
+  .content-column .main .title {
+    display: none;
+  }
+  .region-preblocks {
+    .block {
+      @include span-columns(4);
+      height: 280px;
+      overflow: hidden;
+      margin-bottom:30px;
+      &:nth-child(3n) {
+        @include omega;
+      }
+      .media-openscience_2_col {
+        @include squish(1,1, 4);
+      }
+      form {
+        // @include span-columns(2, 4);
+        // @include squish(1,1, 4);
+
+      }
+    }
+    .view-display-id-featured_lrt  {
+      h3.field-content {
+        @include span-columns(3,4);
+        margin-top:0;
+      }
+      .field-image {
+        @include span-columns(1 omega,4);
+        text-align: right;
+        border:none;
+      }
+      .field-search-snippet {
+        clear:both;
+      }
+      .view-footer {
+        margin-top:1em;
+      }
+    }
+    .view-display-id-portal_showcase {
+      .field-image {
+        @include span-columns(2 omega, 4);
+      }
+    }
+    .view-display-id-portal_blog {
+      .field-image {
+        @include span-columns(2 omega, 4);
+      }
+    }
+  }
+}
+
+//
+// LTR Showcases
+//
+
+.node-lrt-showcase {
+  h3 {
+    float:left;
+    padding-right:0.3em;
+  }
+
+  .field-search-snippet {
+    clear:both;
+  }
+
+  .field-description {
+    clear:both;
+  }
+
+}
+
+////
+//// [ 5 ] FORMS
+////
+
+fieldset {
+  border:1px solid #ccc;
+  @include border-radius(3px);
+  position:relative;
+  margin-bottom:1.4em;
+  max-width:100%;
+  &.filter-wrapper { margin-bottom:1.4em; }
+  legend {
+    top:10px;
+    left:10px;
+    display:block;
+    line-height: 1;
+    padding:$indent/2 $indent;
+    color:$red;
+    @include background-image(linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0)));
+    @include border-radius(3px);
+    a {
+      text-decoration:none;
+    }
+    a:before {
+      content:'- ';
+    }
+  }
+  &.collapsed legend a:before {
+    content:'+ ';
+  }
+}
+
+.fieldset-wrapper {
+  padding: 10px;
+}
+
+.form-item {
+  margin-bottom:1.4em;
+  max-width:100%;
+}
+
+html.js input.form-autocomplete {
+  background-position:100% 5px;
+}
+
+.form-radios .form-item,
+.form-checkboxes .form-item {
+  margin-bottom:0.4em;
+}
+
+label {
+  line-height: 1.4em;
+  display:block;
+  font-weight:normal;
+}
+
+label.option {
+  display:inline;
+}
+
+// Set font for forms
+label,
+input,
+select,
+textarea {
+  font-family:inherit;
+  color:inherit;
+  max-width:100%;
+}
+
+label {
+  color:$text2;
+}
+
+// Inputs, Textareas, Selects
+input,
+textarea,
+select,
+.button {
+  padding: 4px;
+  line-height: 1.4em;
+  border: 1px solid #ccc;
+  @include box-sizing(border-box);
+}
+
+.button a {
+  text-decoration:none;
+  &:hover, &:focus {
+    text-decoration:none;
+  }
+}
+
+input[type=checkbox],
+input[type=radio] {
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: -2px 0 0 0;
+  border:none;
+}
+
+input[type=file] {
+  background-color: #fff;
+  padding: initial;
+  border: initial;
+  line-height: initial;
+  @include box-shadow(none);
+}
+
+select,
+input[type=file] {
+  max-width:100%;
+  height: 2em; // In IE7, the height of the select element cannot be changed by height, only font-size
+  line-height: 1.4em;
+  *margin-top: 4px; /* For IE7, add top margin to align select with labels */
+}
+
+// Make multiple select elements height not fixed
+select[multiple] {
+  height: inherit;
+}
+
+textarea {
+  height: auto;
+}
+
+input,
+textarea,
+a.button {
+  $transition: border linear .2s, background-color linear .2s;
+  @include transition($transition);
+  @include box-shadow(inset 0 1px 3px rgba(0,0,0,.1));
+  @include border-radius(3px);
+  background-color:#fff;
+}
+
+input:focus,
+textarea:focus {
+  outline: 0;
+  border-color: #bbb;
+  background-color:#fafafa;
+}
+
+// input[type=file]:focus,
+// input[type=checkbox]:focus,
+// select:focus {
+//   @include box-shadow(none); // override for file inputs
+//   outline: 1px dotted #666; // Select elements don't get box-shadow styles, so instead we do outline
+// }
+
+
+input[type=button],
+input[type=reset],
+input[type=submit],
+button,
+input.form-submit,
+.form-actions a,
+.form-actions a:visited,
+.button {
+  width: auto;
+  height: auto;
+  margin:1.4em 6px 0 0;
+  padding:6px 12px 6px 12px;
+  cursor:pointer;
+  background-color:#fff;
+  @include background-image(linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.1)));
+  @include magic-border(0.75);
+  background-repeat:no-repeat;
+  border-color:#ccc;
+  @include border-radius(4px);
+  $transition: border linear .4s, background-position linear .4s;
+  line-height:1em; // is not a cross-browser reliable function here
+  word-wrap:normal;
+  overflow: visible; // needed to make ie7 respect padding and border size
+  &:hover, &:focus {
+    background-position:0 10px;
+    border-color:#dadada;
+  }
+}
+
+.container-inline {
+  input[type=button],
+  input[type=reset],
+  input[type=submit],
+  button,
+  input.form-submit,
+  .form-actions a,
+  .form-actions a:visited {
+    margin-top:0;
+  }
+}
+
+
+// Disabled and read-only inputs
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+// Help Text
+.description {
+  font-size: 11px;
+  line-height: 1.4em;
+}
+
+// Error
+
+form .error {
+  border:1px solid #cc0000;
+}
+
+// Inline Form
+
+.block-inline-form {
+  form {
+    input {
+      display:block;
+      float:left;
+      font-size:1.3em;
+      padding:0.7em;
+      &[type=text], &.form-text {
+        width:65%;
+        margin:0;
+        border-right:0;
+        @include border-radius(5px 0 0 5px);
+      }
+      &[type=submit], &.form-submit {
+        width:35%;
+        margin:0;
+        border-left:0;
+        @include border-radius(0 5px 5px 0);
+        @include box-shadow(none);
+      }
+    }
+  }
+}
+
+
+////
+//// [ 6 ] COMMON ELEMENTS
+////
+
+.node-full img {
+  float:left;
+  margin:0 $gutter/2 $gutter/2 0;
+  &.float-right,
+  &.right {
+    float:right;
+    margin:0 0 $gutter/2 $gutter/2;
+  }
+}
+
+.node-full .node-content .field-image {
+  @include span-columns(5, 9);
+  clear:left;
+}
+
+.node .field-image {
+  border:1px solid $grey;
+  @include clearfix;
+  float:left;
+  margin:0 $gutter/2 $gutter/2 0;
+  img {
+    margin:0;
+  }
+}
+
+.node .field-file-image-title-text {
+  clear:left;
+  border-top:1px solid $grey;
+  padding:2px;
+  font-size:$base - 2;
+  background:$lightgrey;
+}
+
+.node-full {
+  div.field-date {
+    @include inline-box;
+    @include box-sizing(border-box);
+    // clear:left;
+    margin-bottom:$gutter / 2;
+    font-size:$base - 2;
+    padding:$indent;
+    font-size:$h4;
+  }
+  div.field-date {
+    @include span-columns(9 omega, 9);
+  }
+  .field-label {
+    clear:both;
+  }
+}
+
+.flex-control-nav {
+  margin:0;
+  padding:0;
+  text-align:center;
+  li {
+    list-style:none;
+    display:inline;
+    margin:0;
+    padding:0 3px;
+    a {
+      width:10px;
+      height:10px;
+      background: rgba(255,255,255,0.4);
+      display:inline-block;
+      @include border-radius(10px);
+      text-indent:-99999px;
+      cursor:pointer;
+      &.flex-active {
+        background: rgba(255,255,255,1);
+      }
+    }
+  }
+}
+
+.flex-direction-nav {
+  margin:0;
+  padding:0;
+  li {
+    list-style:none;
+    margin:0;
+    padding:0;
+    a {
+      display:block;
+      position:absolute;
+      top:50%;
+      margin-top:-30px;
+      text-indent:-99999px;
+      background:$blue;
+      width:60px;
+      height:60px;
+      @include border-radius(60px);
+      @include opacity(0.75);
+      @include single-transition(all, 300ms);
+      color:#fff;
+      text-decoration:none;
+      z-index:3;
+      &:hover, &:focus {
+        @include opacity(1);
+        text-decoration:none;
+      }
+      &.flex-disabled {
+        @include opacity(0);
+      }
+      &:after {
+        color:#fff;
+        font-family:"FrutigerLTW01-55Roman";
+      }
+      &.flex-prev {
+        left:-10px;
+        &:after {
+          content:'<';
+          display:block;
+          position:absolute;
+          top:2px;
+          left:14px;
+          font-size:45px;
+          line-height:45px;
+          text-indent:0;
+          @include scaleY(1.4);
+        }
+      }
+      &.flex-next {
+        right:-10px;
+        &:after {
+          content:'>';
+          display:block;
+          position:absolute;
+          top:2px;
+          right:14px;
+          font-size:45px;
+          line-height:45px;
+          text-indent:0;
+          @include scaleY(1.4);
+        }
+      }
+    }
+  }
+}
+
+.messages {
+  clear:both;
+}
+
+.field-tags {
+  display:inline;
+  padding:0 20px 0 0;
+}
+
+.feed-icon {
+  float:left;
+  clear:both;
+}
+
+//
+// Arctica visual bootstrap navigations
+//
+
+// Primary Tabs
+.primary,
+.quicktabs-tabs {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  h2 {
+    margin:0;
+  }
+  @include clearfix();
+  li {
+    margin-right:5px;
+    margin-bottom:-1px;
+    margin:0 8px -1px 0;
+    float: left;
+    a {
+      display: block;
+      padding: 0 15px;
+      margin-right: 2px;
+      line-height: 2em;
+      @include border-radius(4px 4px 0 0);
+      text-decoration:none;
+      font-size:90%;
+      background:#f6f6f6;
+      border: 1px solid #e6e6e6;
+      border-bottom-color:#ccc;
+      &:hover,
+      &:focus      {
+        text-decoration: none;
+        background-color: #eee;
+      }
+    }
+    &.active a {
+      background-color: #fff;
+      border-bottom-color: transparent;
+    }
+  }
+}
+
+.primary {
+  margin-bottom:$gutter / 2;
+}
+
+// Secondary tabs
+ul.secondary {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding:0;
+  li {
+    display:inline;
+    margin:0;
+    padding:0;
+    a {
+      margin: 5px 3px 5px 0;
+      text-decoration: none;
+      font-size:90%;
+      padding: 5px 15px;
+      background:#e6e6e6;
+      line-height: 2.8em;
+      @include border-radius(15px);
+      &:hover {
+        text-decoration: none;
+        background-color: #eee;
+      }
+    }
+    &.active a {
+      color: #f3f3f3;
+      background:#444;
+    }
+  }
+}
+
+
+// Default page styling, decide for your theme if it should float left or right
+// default is left
+
+$pagerheight: 2.5em;
+
+ul.pager {
+  height: $pagerheight;
+  margin: 1.4em 0;
+  float: left;
+  clear:both;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  @include border-radius(3px);
+  @include box-shadow(0 1px 2px rgba(0,0,0,.05));
+  font-size:90%;
+  list-style:none;
+  li {
+    display: inline;
+    float: left;
+    line-height: $pagerheight;
+    border-right: 1px solid;
+    border-right-color: #ccc;
+    border-right-color: rgba(0,0,0,.15);
+    *border-right-color: #ccc; /* IE6-7 */
+  }
+  a,
+  .pager-current  {
+    float: left;
+    text-decoration: none;
+    line-height: $pagerheight;
+    padding: 0 14px;
+  }
+  a:hover,
+  a:focus  {
+    background-color: #f6f6f6;
+  }
+  .pager-last {
+    border: 0;
+  }
+}
+
+// Maps fix, disable max-width:100%
+
+/* Override max-width 100% for map displays */
+.gmap img,
+.gm-style img,
+.view-gmap img,
+.openlayers-map img,
+#getlocations_map_canvas img {
+  max-width: none;
+}

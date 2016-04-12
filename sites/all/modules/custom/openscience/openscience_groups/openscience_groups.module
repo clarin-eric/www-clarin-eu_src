@@ -1,0 +1,313 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience Groups feature.
+ */
+
+include_once 'openscience_groups.features.inc';
+
+
+/**
+ * Implement hook_form_alter().
+ * Set group content visibility according to group visibility
+ */
+function openscience_groups_form_alter(&$form, &$form_state, $form_id) {
+  if (($form_id == 'group_page_node_form') OR ($form_id == 'group_files_node_form') OR ($form_id == 'discussion_node_form')) {
+    if (node_access('view', node_load($_GET['og_group_ref']), user_load(0))) {
+      $form['group_content_access']['und']['#default_value'] = 1;
+    }
+
+  }
+}
+
+/**
+ * Implement hook_theme().
+ */
+function openscience_groups_theme() {
+  $module_path = drupal_get_path('module', 'openscience_groups');
+
+  $base = array(
+    'file' => 'theme.inc',
+    'path' => "$module_path/theme",
+  );
+
+  return array(
+    'openscience_groups_group_comp' => $base + array(
+      'render element' => 'element',
+      'template' => 'openscience-groups-group-comp',
+    ),
+    'openscience_groups_group_info' => $base + array(
+      'render element' => 'element',
+      'template' => 'openscience-groups-group-info',
+    ),
+    'openscience_groups_group_links' => $base + array(
+      'render element' => 'element',
+      'template' => 'openscience-groups-group-links',
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_block_info().
+ *
+ * Add a custom group statistics and attendees blocks.
+ */
+function openscience_groups_block_info() {
+  $blocks['openscience_groups_group_comp'] = array(
+    'info' => t('OpenScience Groups: Group Composition'),
+    'cache' => DRUPAL_NO_CACHE
+    // DRUPAL_CACHE_PER_ROLE will be assumed if not set.
+  );
+  $blocks['openscience_groups_group_info'] = array(
+    'info' => t('OpenScience Groups: Group Information'),
+    'cache' => DRUPAL_NO_CACHE
+    // DRUPAL_CACHE_PER_ROLE will be assumed if not set.
+  );
+  $blocks['openscience_groups_node_links'] = array(
+    'info' => t('OpenScience Groups: Group add content'),
+    'cache' => DRUPAL_NO_CACHE
+    // DRUPAL_CACHE_PER_ROLE will be assumed if not set.
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Add a custom group statistics and create content blocks.
+ */
+function openscience_groups_block_view($delta = '') {
+
+  $block = array();
+
+  switch ($delta) {
+    case 'openscience_groups_group_comp':
+      // The info block is visible to everyone, group member or not.
+      $content = theme('openscience_groups_group_comp');
+      if (!empty($content)) {
+        $block['subject'] = t('Group Composition');
+        $block['content'] = $content;
+      }
+      break;
+
+    case 'openscience_groups_group_info':
+      // The info block is visible to everyone, group member or not.
+      $content = theme('openscience_groups_group_info');
+      if (!empty($content)) {
+        $block['subject'] = t('General Information');
+        $block['content'] = $content;
+      }
+      break;
+
+    case 'openscience_groups_node_links':
+      // Links are visible to people with permissions.
+      $content = theme('openscience_groups_group_links');
+      if (!empty($content)) {
+        $block['subject'] = t('Add content');
+        $block['content'] = $content;
+      }
+      break;
+
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_file_download().
+ *
+ * If a file is stored in the private-files subdirectory of the private file
+ * system a check will be done to grant access only to files that are connected
+ *  tonodes in a group that can be accessed by the current user.
+ */
+
+function openscience_groups_file_download($uri) {
+  // Get nid by removing the private:// prefix and splitting up uri components
+  $uri_parts = explode('/', drupal_substr($uri, 10));
+  if ($uri_parts[0] == 'private-files' && is_numeric($uri_parts[1])) {
+    if (node_access('view', node_load($uri_parts[1]))) {
+      return array();
+    } else {
+      return -1;
+    }
+  }
+  else {
+    return NULL;
+  }
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ */
+function openscience_groups_token_info_alter(&$info) {
+  // Open Science groups tokens
+  $info['types']['openscience-groups'] = array(
+    'name' => t('OpenScience Groups'),
+    'description' => t('Tokens related to Open Science Groups.'),
+  );
+  $info['tokens']['openscience-groups']['os_groups_gnid'] = array(
+    'name' => t('OpenScience Group id'),
+    'description' => t('The current or referenced Open Science group node id. Supports og_group_ref query string.'),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function openscience_groups_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  $sanitize = !empty($options['sanitize']);
+
+  // Find Group node id in query string or see if the internal path leads to a group nid
+  if ($type == 'openscience-groups') {
+    foreach ($tokens as $name => $original) {
+      if (isset($_GET['og_group_ref'])) {
+        $replacements[$original] = check_plain($_GET['og_group_ref']);
+      }
+      elseif (arg(0) == 'node' && is_numeric(arg(1))) {
+        $groups = og_get_entity_groups('node', arg(1));
+        if (!empty($groups)) {
+          $replacements[$original] = current($groups['node']);
+        }
+        else {
+          $replacements[$original] = 0;
+        }
+      }
+      else {
+        $replacements[$original] = 0;
+      }
+    }
+  }
+  return $replacements;
+}/**
+ * Implements hook_field_is_empty().
+ *
+ * hook_field_is_emtpy() is where Drupal asks us if this field is empty.
+ * Return TRUE if it does not contain data, FALSE if it does. This lets
+ * the form API flag an error when required fields are empty.
+ */
+function openscience_groups_field_is_empty($item, $field) {
+  return empty($item['rgb']);
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * We need to tell Drupal that we have two different types of formatters
+ * for this field. One will change the text color, and the other will
+ * change the background color.
+ *
+ * @see openscience_groups_field_formatter_view()
+ */
+function openscience_groups_field_formatter_info() {
+  return array(
+    'openscience_groups_acronym' => array(
+      'label' => t('Text-based acronym formatter'),
+      'field types' => array('text', 'text_long', 'text_with_summary', 'entityreference'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * Two formatters are implemented.
+ * - openscience_groups_acronym just outputs markup indicating the color that
+ *   was entered and uses an inline style to set the text color to that value.
+ * - openscience_groups_color_background does the same but also changes the
+ *   background color of div.region-content.
+ *
+ * @see openscience_groups_field_formatter_info()
+ */
+function openscience_groups_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'openscience_groups_acronym':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array('#markup' => strip_tags($item['value']));
+      }
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Creates the Group create content links.
+ */
+function openscience_groups_node_links() {
+  $group = og_context();
+
+  $types = array();
+  foreach (node_type_get_types() as $type) {
+    if (og_is_group_content_type('node', $type->type)) {
+      $types[$type->type] = $type->type;
+    }
+  }
+
+  $content = og_node_create_links($group['group_type'], $group['gid'], OG_AUDIENCE_FIELD, NULL, $types);
+
+  return drupal_render($content);
+}
+
+/**
+ * Generate an acronym from a given string.
+ */
+function openscience_groups_generate_acronym($string, $reset = FALSE) {
+  static $cache = array();
+
+  if (!isset($cache[$string]) || $reset) {
+    $split = preg_split('/[ .-]+/', $string, -1, PREG_SPLIT_NO_EMPTY);
+    $acro = '';
+
+    // Capital-letter based acronyms
+    if (preg_match('/[0-9A-Z]+/', $string)) {
+
+      // Eliminate small words
+      foreach ($split as $k => $chunk) {
+        // No caps or numbers, trash it
+        if (!preg_match('/[0-9A-Z]+/', $chunk)) {
+          unset($split[$k]);
+        }
+      }
+      reset($split);
+
+      // Multiword titles -- form acronym from key characters.
+      if (count($split) > 1) {
+        foreach ($split as $chunk) {
+          $char = array();
+          preg_match_all('/[0-9A-Z]/', $chunk, $char);
+          $acro .= implode('', $char[0]);
+        }
+      }
+      // 1 word titles
+      else {
+        $split = array_shift($split);
+        $char = array();
+        preg_match_all('/[0-9A-Z]/', $split, $char);
+        // Use caps as the acronym, but if there's only 1 cap use the whole string.
+        $acro = count($char[0]) > 1 ? implode('', $char[0]) : $split;
+      }
+    }
+    // Lower case title, bail and use first word
+    else {
+      // Multi-word -- use first letter of each
+      if (count($split) > 1) {
+        foreach ($split as $chunk) {
+          $acro .= drupal_substr($chunk, 0, 1);
+        }
+      }
+      // Bail, use first word
+      else {
+        $acro = current($split);
+      }
+    }
+    $cache[$string] = $acro;
+  }
+
+  return $cache[$string];
+}

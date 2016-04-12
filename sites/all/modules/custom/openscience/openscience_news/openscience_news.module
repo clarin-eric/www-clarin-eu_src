@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience News feature.
+ */
+
+include_once 'openscience_news.features.inc';

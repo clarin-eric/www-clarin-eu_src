@@ -1,0 +1,63 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience Events feature.
+ */
+
+include_once 'openscience_events.features.inc';
+
+/**
+ * Implement hook_theme().
+ */
+function openscience_events_theme() {
+  $module_path = drupal_get_path('module', 'openscience_events');
+
+  $base = array(
+    'file' => 'theme.inc',
+    'path' => "$module_path/theme",
+  );
+
+  return array(
+    'openscience_events_date_widget' => $base + array(
+      'render element' => 'element',
+      'template' => 'openscience-events-date-widget',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * Add a custom group statistics and attendees blocks.
+ */
+function openscience_events_block_info() {
+  $blocks['openscience_events_date_widget'] = array(
+    'info' => t('OpenScience Events: Date Widget'),
+    'cache' => DRUPAL_NO_CACHE
+    // DRUPAL_CACHE_PER_ROLE will be assumed if not set.
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Add a custom group statistics and create content blocks.
+ */
+function openscience_events_block_view($delta = '') {
+
+  $block = array();
+
+  switch ($delta) {
+    case 'openscience_events_date_widget':
+      // The info block is visible to everyone, group member or not.
+      $content = theme('openscience_events_date_widget');
+      if (!empty($content)) {
+        $block['subject'] = FALSE;
+        $block['content'] = $content;
+      }
+      break;
+
+  }
+  return $block;
+}

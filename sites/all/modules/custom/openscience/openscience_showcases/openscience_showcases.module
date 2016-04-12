@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Code for the OpenScience Showcases feature.
+ */
+
+include_once 'openscience_showcases.features.inc';
+
+/**
+ * Implements hook_block_info().
+ *
+ * Add a custom group statistics and attendees blocks.
+ */
+function openscience_showcases_block_info() {
+  $blocks['openscience_showcases_filter'] = array(
+    'info' => t('OpenScience Showcases: Field Filter'),
+    'cache' => DRUPAL_NO_CACHE
+    // DRUPAL_CACHE_PER_ROLE will be assumed if not set.
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Add a custom group statistics and create content blocks.
+ */
+function openscience_showcases_block_view($delta = '') {
+
+  $block = array();
+
+  switch ($delta) {
+    case 'openscience_showcases_filter':
+      // The info block is visible to everyone, group member or not.
+      $content = openscience_showcases_field_filter();
+      if (!empty($content)) {
+        $block['subject'] = t('Showcases by centre');
+        $block['content'] = $content;
+      }
+      break;
+  }
+  return $block;
+}
+
+function openscience_showcases_field_filter() {
+  $query = "SELECT DISTINCT field_clarin_centre_value FROM field_data_field_clarin_centre";
+  $result = db_query($query)->fetchCol();
+  $item_list['items'] = $result;
+  array_walk($item_list['items'], 'openscience_showcase_filter_menu_link');
+  array_unshift($item_list['items'], l('All showcases', 'showcases/all'));
+  return theme('item_list', $item_list);
+}
+
+function openscience_showcase_filter_menu_link(&$value) {
+  $path = 'showcases' . '/' . str_replace(' ', '-', $value);
+  $value = l($value, $path);
+  return TRUE;
+}

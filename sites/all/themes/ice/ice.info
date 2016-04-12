@@ -1,0 +1,82 @@
+; --------------------------------------------------------------------------------
+; Theme information
+; --------------------------------------------------------------------------------
+
+name                                        = Ice
+description                                 = Mobile friendly HTML5 base theme for code based layout management. (e.g. SASS/SUSY, LESS etc.)
+core                                        = 7.x
+engine                                      = phptemplate
+
+; --------------------------------------------------------------------------------
+; Regions.
+; --------------------------------------------------------------------------------
+
+regions[header]                             = header
+regions[featured]                           = featured
+regions[preblocks]                          = preblocks
+regions[peripheral1]                        = Peripheral 1
+regions[help]                               = Help
+regions[content]                            = Content
+regions[peripheral2]                        = Peripheral 2
+regions[postblocks]                         = postblocks
+regions[footer]                             = footer
+
+; --------------------------------------------------------------------------------
+; Define features supported by this theme.
+; --------------------------------------------------------------------------------
+
+features[]                                  = logo
+features[]                                  = name
+features[]                                  = slogan
+features[]                                  = node_user_picture
+features[]                                  = comment_user_picture
+features[]                                  = favicon
+
+; --------------------------------------------------------------------------------
+; Ban twitter pull and quicktabs css, it adds superfluous styling
+; --------------------------------------------------------------------------------
+
+stylesheets[all][]                           = remove/twitter-pull-listing.css
+stylesheets[all][]                           = remove/quicktabs.css
+
+; --------------------------------------------------------------------------------
+; Drupal core style resets
+; --------------------------------------------------------------------------------
+
+stylesheets[all][] = 'aggregator.css'
+stylesheets[all][] = 'block.css'
+stylesheets[all][] = 'book.css'
+stylesheets[all][] = 'color.css'
+stylesheets[all][] = 'comment.css'
+; stylesheets[all][] = 'contextual.css'
+stylesheets[all][] = 'dashboard.css'
+stylesheets[all][] = 'dblog.css'
+stylesheets[all][] = 'field.css'
+stylesheets[all][] = 'field_ui.css'
+stylesheets[all][] = 'file.css'
+stylesheets[all][] = 'filter.css'
+stylesheets[all][] = 'forum.css'
+stylesheets[all][] = 'help.css'
+stylesheets[all][] = 'image.admin.css'
+stylesheets[all][] = 'image.css'
+stylesheets[all][] = 'locale.css'
+stylesheets[all][] = 'menu.css'
+stylesheets[all][] = 'node.css'
+stylesheets[all][] = 'openid.css'
+stylesheets[all][] = 'poll.css'
+stylesheets[all][] = 'profile.css'
+stylesheets[all][] = 'search.css'
+stylesheets[all][] = 'shortcut.admin.css'
+stylesheets[all][] = 'shortcut.css'
+stylesheets[all][] = 'simpletest.css'
+stylesheets[all][] = 'system.admin.css'
+; stylesheets[all][] = 'system.base.css'
+stylesheets[all][] = 'system.maintenance.css'
+stylesheets[all][] = 'system.menus.css'
+; stylesheets[all][] = 'system.messages.css'
+stylesheets[all][] = 'system.theme.css'
+stylesheets[all][] = 'taxonomy.css'
+stylesheets[all][] = 'toolbar.css'
+stylesheets[all][] = 'tracker.css'
+stylesheets[all][] = 'update.css'
+stylesheets[all][] = 'user.css'
