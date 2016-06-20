@@ -135,7 +135,8 @@
     &#8226; <a href="http://www.helsinki.fi/fin-clarin/">Finland</a> 
     &#8226; <a href="http://www.clarin-d.de/">Germany</a>
     &#8226; <a href="http://www.clarin.gr/">Greece</a>
-    &#8226; Italy
+    &#8226; <a href="http://www.clarin-it.it/">Italy</a>
+    &#8226; Latvia
     &#8226; <a href="http://www.clarin-lt.lt/">Lithuania</a>
     &#8226; <a href="http://www.clarin.nl/">Netherlands</a>
     &#8226; <a href="http://clarin.b.uib.no/">Norway</a>
@@ -153,4 +154,3 @@
     </footer>
 
   </div> <!-- end #PAGE -->
-  
