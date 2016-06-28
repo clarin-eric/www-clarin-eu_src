@@ -148,7 +148,7 @@
     <br /><br />
     </p>
     <p>
-      <img class="thumbnail" style="margin-right: 10px; float: left;" src="https://www.clarin.eu/sites/default/files/flag-eu.png"> CLARIN-PLUS receives funding from the European Union's Horizon 2020 research and innovation programme under grant agreement no. 676529.<br />
+      <img class="thumbnail" style="margin-right: 10px; float: left;" src="/sites/default/files/flag-eu.png"> CLARIN-PLUS receives funding from the European Union's Horizon 2020 research and innovation programme under grant agreement no. 676529.<br />
       Your use of the CLARIN ERIC site is subject to the <a href="http://creativecommons.org/licenses/by/2.0/">CC-BY</a> and our <a href="http://www.clarin.eu/node/3760">terms of use</a>.</p>
       <p class="footer-menu"><a href="/contact">contact</a></p>
     </footer>
