@@ -126,7 +126,7 @@
     <footer class="footer">
     <p>
     CLARIN members:
-    <a href="http://www.clarin-dariah.at/">Austria</a>
+    <a href="http://at.clarin.eu/">Austria</a>
     &#8226; Bulgaria
     &#8226; <a href="http://www.lindat.cz/">Czech Republic</a>
     &#8226; <a href="http://info.clarin.dk/">Denmark</a>
