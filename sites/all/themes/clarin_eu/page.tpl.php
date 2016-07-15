@@ -132,7 +132,7 @@
     &#8226; <a href="http://info.clarin.dk/">Denmark</a>
     &#8226; <a href="http://taalunie.org/wat-doet-taalunie/activiteiten/clarin">Dutch Language Union</a>
     &#8226; <a href="http://keeleressursid.ee/">Estonia</a>
-    &#8226; <a href="http://www.helsinki.fi/fin-clarin/">Finland</a> 
+    &#8226; <a href="http://fi.clarin.eu/">Finland</a> 
     &#8226; <a href="http://www.clarin-d.de/">Germany</a>
     &#8226; <a href="http://www.clarin.gr/">Greece</a>
     &#8226; <a href="http://www.clarin-it.it/">Italy</a>
