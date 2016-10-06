@@ -1,0 +1,22 @@
+sudo: false
+git:
+  depth: 1
+addons:
+  apt:
+    packages:
+    - curl
+    - nodejs
+script:
+  - sh -x ./build.sh
+deploy:
+  api_key:
+    secure: "$DEPLOY_OAUTH_TOKEN"
+  on:
+    tags: true
+  overwrite: true
+  provider: releases
+  skip_cleanup: true
+notifications:
+  email:
+    on_success: change
+    on_failure: always
