@@ -10,18 +10,18 @@ curl --fail --location --show-error --silent --tlsv1 \
         tar -x -z -p -v -f -
 ## Use the Less-based starter kit.
 cp -apr -- 'bootstrap-7.x-3.5/starterkits/less' ~/'CLARIN_Horizon/'
-cd -- ~/'CLARIN_Horizon/'
 ## Edit subtheme properties.
 rm -- 'less.subtheme'
 # TODO
 ## Customize graphics.
-mv -f -- '../CLARIN_Horizon.info' '../favicon.ico' '../logo.png' \
-    ~/'CLARIN_Horizon/'
-
-git clone 'git@github.com:twbs/bootstrap.git' ~/'bootstrap'
+(cd 'sites/all/themes/CLARIN_Horizon/'
+mv -f -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' ~/'CLARIN_Horizon/')
+cd -- ~/'CLARIN_Horizon/'
+git clone 'git@github.com:twbs/bootstrap.git'
 (cd -- ~/'bootstrap'
 git fetch --tags
 git checkout 'v3.3.6')
-
-## Transpile.
+## Apply CLARIN base style.
+curl --fail --location --show-error --silent --tlsv1 \
+    'https://github.com/clarin-eric/base_style/releases/download/0.1.1/variables.less' > 'less/variable-overrides.less'
 lessc 'less/style.less' --clean-css='--s0' > 'css/style.css'
