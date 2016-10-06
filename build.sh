@@ -17,7 +17,7 @@ cd -- ~/'CLARIN_Horizon/'
 rm -rf -- 'less.starterkit' 'bootstrap/'
 # TODO: Do not clone but download archive. This has not worked well in the past.
 # Reattempt.
-git clone --depth 0 'https://github.com/twbs/bootstrap.git'
+git clone 'https://github.com/twbs/bootstrap.git'
 (cd -- ~/'bootstrap'
 git fetch --tags
 git checkout 'v3.3.6')
