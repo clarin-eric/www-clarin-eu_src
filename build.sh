@@ -10,13 +10,11 @@ curl --fail --location --show-error --silent --tlsv1 \
         tar -x -z -p -f -
 ## Use the Less-based starter kit.
 cp -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
-## Edit subtheme properties.
-cd -- ~/'CLARIN_Horizon/'
-rm -- 'less.starterkit'
 ## Customize graphics.
 (cd 'sites/all/themes/CLARIN_Horizon/'
 mv -f -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' ~/'CLARIN_Horizon/')
-rm -rf -- 'bootstrap/'
+cd -- ~/'CLARIN_Horizon/'
+rm -rf -- 'less.starterkit' 'bootstrap/'
 git clone 'git@github.com:twbs/bootstrap.git'
 (cd -- ~/'bootstrap'
 git fetch --tags
