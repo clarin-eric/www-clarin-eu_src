@@ -9,7 +9,7 @@ curl --fail --location --show-error --silent --tlsv1 \
     'https://github.com/drupalprojects/bootstrap/archive/7.x-3.6.tar.gz' | \
         tar -x -z -p -f -
 ## Use the Less-based starter kit.
-cp -apr -- 'bootstrap-7.x-3.5/starterkits/less' ~/'CLARIN_Horizon/'
+cp -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
 ## Edit subtheme properties.
 cd -- ~/'CLARIN_Horizon/'
 rm -- 'less.starterkit'
