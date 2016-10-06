@@ -5,7 +5,7 @@ set -e
 # ~/.npmrc
 npm set progress='false'
 npm --silent install --depth '0' --global 'less' 'less-plugin-clean-css'
-curl --fail --location --show-error --silent --tlsv1.2 \
+curl --fail --location --show-error --silent --tlsv1 \
     'https://github.com/drupalprojects/bootstrap/archive/7.x-3.5.tar.gz' | \
         tar -x -z -p -v -f -
 ## Use the Less-based starter kit.
