@@ -14,14 +14,16 @@ cp -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
 (cd 'sites/all/themes/CLARIN_Horizon/'
 mv -f -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' ~/'CLARIN_Horizon/')
 cd -- ~/'CLARIN_Horizon/'
-rm -rf -- 'less.starterkit' 'bootstrap/'
+rm -fr -- 'less.starterkit' 'bootstrap/'
 # TODO: Do not clone but download archive. This has not worked well in the past.
 # Reattempt.
 git clone 'https://github.com/twbs/bootstrap.git'
 (cd -- 'bootstrap/'
 git fetch --tags
-git checkout 'v3.3.6')
+git checkout 'v3.3.6'
+rm -fr -- '.git/')
 ## Apply CLARIN base style.
 curl --fail --location --show-error --silent --tlsv1 \
     'https://github.com/clarin-eric/base_style/releases/download/0.1.1/variables.less' > 'less/variable-overrides.less'
 lessc 'less/style.less' --clean-css='--s0' > 'css/style.css'
+tar -c -p -z -f ~/CLARIN_Horizon.tgz .
