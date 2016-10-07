@@ -18,7 +18,7 @@ rm -rf -- 'less.starterkit' 'bootstrap/'
 # TODO: Do not clone but download archive. This has not worked well in the past.
 # Reattempt.
 git clone 'https://github.com/twbs/bootstrap.git'
-(cd -- ~/'bootstrap'
+(cd -- 'bootstrap/'
 git fetch --tags
 git checkout 'v3.3.6')
 ## Apply CLARIN base style.
