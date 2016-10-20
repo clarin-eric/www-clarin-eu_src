@@ -1,8 +1,8 @@
 == CLARIN website custom Drupal 7 modules and themes 
 
 This project produces the CLARIN Horizon subtheme for http://drupal-bootstrap.org/api/bootstrap/7[Drupal Bootstrap].
-On every tagged commit, Travis CI runs link:build.sh[`build.sh`] and adds the produced artifacts to the release item on GitHub.
+On every tagged commit, Travis CI runs link:build.sh[`build.sh`] and adds the produced artifacts to the respective release item on GitHub.
 
 To edit the subtheme, please use your own fork of this repository.
 Mind to enable Travis CI for that project on `https://travis-ci.org/profile/YOUR_GITHUB_LOGIN`.
-Moreover, you have set the secret environment variable `DEPLOY_OAUTH_TOKEN` within the Travis CI project settings to the appropriate https://docs.travis-ci.com/user/deployment/releases/#Authenticating-with-an-Oauth-token[OAuth token].
+Moreover, you have to have set the secret environment variable `DEPLOY_OAUTH_TOKEN` within the Travis CI project settings to the appropriate https://docs.travis-ci.com/user/deployment/releases/#Authenticating-with-an-Oauth-token[OAuth token].
