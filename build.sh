@@ -1,6 +1,11 @@
 #!/bin/sh
 
 set -e
+
+#gcp and grm can be installed on MacOS via brew. Run "brew install coreutils" to do so.
+CP=`which gcp||which cp` #if gcp available (on Mac), use it instead of BSD cp
+RM=`which grm||which rm`  #if grm available (on Mac), use it instead of BSD rm
+
 # TODO
 # ~/.npmrc
 npm set progress='false'
@@ -9,19 +14,19 @@ curl --fail --location --show-error --silent --tlsv1 \
     'https://github.com/drupalprojects/bootstrap/archive/7.x-3.6.tar.gz' | \
         tar -x -z -p -f -
 ## Use the Less-based starter kit.
-cp -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
+${CP} -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
 ## Customize graphics.
 (cd 'sites/all/themes/CLARIN_Horizon/'
-mv -f -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' ~/'CLARIN_Horizon/')
+${CP} -f -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' ~/'CLARIN_Horizon/')
 cd -- ~/'CLARIN_Horizon/'
-rm -fr -- 'less.starterkit' 'bootstrap/'
+${RM} -fr -- 'less.starterkit' 'bootstrap/'
 # TODO: Do not clone but download archive. This has not worked well in the past.
 # Reattempt.
 git clone 'https://github.com/twbs/bootstrap.git'
 (cd -- 'bootstrap/'
 git fetch --tags
 git checkout 'v3.3.6'
-rm -fr -- '.git/')
+${RM} -fr -- '.git/')
 ## Apply CLARIN base style.
 curl --fail --location --show-error --silent --tlsv1 \
     'https://github.com/clarin-eric/base_style/releases/download/0.1.1/variables.less' > 'less/variable-overrides.less'
