@@ -17,7 +17,7 @@ curl --fail --location --show-error --silent --tlsv1 \
 ${CP} -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
 ## Customize graphics.
 (cd 'sites/all/themes/CLARIN_Horizon/'
-${CP} -f -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' ~/'CLARIN_Horizon/')
+${CP} -fr -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' 'fonts' ~/'CLARIN_Horizon/')
 cd -- ~/'CLARIN_Horizon/'
 ${RM} -fr -- 'less.starterkit' 'bootstrap/'
 # TODO: Do not clone but download archive. This has not worked well in the past.
