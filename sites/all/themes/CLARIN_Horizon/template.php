@@ -12,7 +12,7 @@ function CLARIN_Horizon_preprocess_html(&$vars) {
     '#type' => 'html_tag',
     '#tag' => 'link',
     '#attributes' => array(
-      'href' =>  'https://fonts.googleapis.com/css?family=Source+Sans+Pro',
+      'href' =>  'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i',
       'rel' => 'stylesheet',
       'type' => 'text/css'
     )
