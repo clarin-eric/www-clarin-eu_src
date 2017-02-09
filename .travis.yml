@@ -6,6 +6,7 @@ addons:
     packages:
     - curl
     - nodejs
+    - bsdtar
 script:
   - sh -x ./build.sh
 deploy:
