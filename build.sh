@@ -1,4 +1,6 @@
 #!/bin/sh
+BASE_STYLE_REPOSITORY="https://github.com/twagoo/base_style"
+BASE_STYLE_VERSION="0.1.3-dev3"
 
 set -e
 
@@ -11,7 +13,7 @@ RM=`which grm||which rm`  #if grm available (on Mac), use it instead of BSD rm
 npm set progress='false'
 npm --silent install --depth '0' --global 'less' 'less-plugin-clean-css'
 curl --fail --location --show-error --silent --tlsv1 \
-    'https://github.com/drupalprojects/bootstrap/archive/7.x-3.6.tar.gz' | \
+    'https://github.com/drupalprojects/bootstrap/archive/7.x-3.10.tar.gz' | \
         tar -x -z -p -f -
 ## Use the Less-based starter kit.
 ${CP} -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
@@ -20,15 +22,12 @@ ${CP} -apr -- 'bootstrap-7.x-3.6/starterkits/less' ~/'CLARIN_Horizon/'
 ${CP} -fr -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' 'fonts' ~/'CLARIN_Horizon/')
 cd -- ~/'CLARIN_Horizon/'
 ${RM} -fr -- 'less.starterkit' 'bootstrap/'
-# TODO: Do not clone but download archive. This has not worked well in the past.
-# Reattempt.
-git clone 'https://github.com/twbs/bootstrap.git'
-(cd -- 'bootstrap/'
-git fetch --tags
-git checkout 'v3.3.6'
-${RM} -fr -- '.git/')
-## Apply CLARIN base style.
+
+## Retrieve CLARIN bootstrap style
+(mkdir 'bootstrap'
+cd -- 'bootstrap'
 curl --fail --location --show-error --silent --tlsv1 \
-    'https://github.com/clarin-eric/base_style/releases/download/0.1.1/variables.less' > 'less/variable-overrides.less'
+	"${BASE_STYLE_REPOSITORY}/releases/download/${BASE_STYLE_VERSION}/base-style-${BASE_STYLE_VERSION}-less-with-bootstrap.jar" | bsdtar -xf -)
+
 lessc 'less/style.less' --clean-css='--s0' > 'css/style.css'
 tar -c -p -z -f ~/CLARIN_Horizon.tgz .
