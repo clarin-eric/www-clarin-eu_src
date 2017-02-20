@@ -1,7 +1,7 @@
 #!/bin/sh
 DRUPAL_BOOTSTRAP_VERSION="7.x-3.10"
 BASE_STYLE_REPOSITORY="https://github.com/twagoo/base_style"
-BASE_STYLE_VERSION="0.1.3-dev3"
+BASE_STYLE_VERSION="0.1.3-dev4"
 
 set -e
 
