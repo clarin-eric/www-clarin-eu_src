@@ -11,19 +11,24 @@ RM=`which grm||which rm`  #if grm available (on Mac), use it instead of BSD rm
 
 # TODO
 # ~/.npmrc
+echo 'Installing LESS compiler...'
 npm set progress='false'
 npm --silent install --depth '0' --global 'less' 'less-plugin-clean-css'
 curl --fail --location --show-error --silent --tlsv1 \
     "https://github.com/drupalprojects/bootstrap/archive/${DRUPAL_BOOTSTRAP_VERSION}.tar.gz" | \
         tar -x -z -p -f -
+
+echo 'Preparing subtheme...'
 ## Use the Less-based starter kit.
 ${CP} -apr -- "bootstrap-${DRUPAL_BOOTSTRAP_VERSION}/starterkits/less" ~/'CLARIN_Horizon/'
-## Customize graphics.
-(cd 'sites/all/themes/CLARIN_Horizon/'
-${CP} -fr -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' ~/'CLARIN_Horizon/'
-## Customize style
-${CP} -fr -- 'less/style.less' ~/'CLARIN_Horizon/less')
+
+echo 'Customising...'
+## Apply static overlay.
+rsync -r 'sites/all/themes/CLARIN_Horizon' ~/'CLARIN_Horizon'
+
 cd -- ~/'CLARIN_Horizon/'
+
+## Clean up
 ${RM} -fr -- 'less.starterkit' 'bootstrap/'
 
 ## Retrieve CLARIN bootstrap style
@@ -35,5 +40,12 @@ curl --fail --location --show-error --silent --tlsv1 \
 ${CP} -fr -- 'bootstrap/less/clarin-bootstrap.less' 'bootstrap/less/clarin-additions.less' 'less'
 ${CP} -fr -- 'bootstrap/fonts/' 'fonts'
 
+echo 'Compiling LESS...'
+## Compile style and add to target
 lessc 'less/style.less' --clean-css='--s0' > 'css/style.css'
+
+echo 'Packaging...'
+## Make distribution
 tar -c -p -z -f ~/CLARIN_Horizon.tgz .
+
+echo 'Done!'
