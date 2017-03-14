@@ -7,4 +7,5 @@ A distribution of the CLARIN base style (which is a bootstrap customisation) is 
 included here. Instead, it should be compiled from a base style distribution that can be 
 obtained from that project's [releases](https://github.com/clarin-eric/base_style/releases). 
 
-The build script in this project follows a procedure according to the above principles.
+The build script in the root of this project (www-clarin-eu_src) implements a procedure 
+according to the above principles.
