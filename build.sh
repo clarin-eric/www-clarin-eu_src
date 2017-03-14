@@ -3,6 +3,9 @@ DRUPAL_BOOTSTRAP_VERSION="7.x-3.10"
 BASE_STYLE_REPOSITORY="https://github.com/twagoo/base_style"
 BASE_STYLE_VERSION="0.1.3-dev4"
 
+BUILD_DIRECTORY=~/'CLARIN_Horizon/'
+BUILD_PACKAGE=~/'CLARIN_Horizon.tgz'
+
 set -e
 
 #gcp and grm can be installed on MacOS via brew. Run "brew install coreutils" to do so.
@@ -20,13 +23,13 @@ curl --fail --location --show-error --silent --tlsv1 \
 
 echo 'Preparing subtheme...'
 ## Use the Less-based starter kit.
-${CP} -apr -- "bootstrap-${DRUPAL_BOOTSTRAP_VERSION}/starterkits/less" ~/'CLARIN_Horizon/'
+${CP} -apr -- "bootstrap-${DRUPAL_BOOTSTRAP_VERSION}/starterkits/less" ${BUILD_DIRECTORY}
 
 echo 'Customising...'
 ## Apply static overlay.
-rsync -r 'sites/all/themes/CLARIN_Horizon' ~/'CLARIN_Horizon'
+rsync -r 'sites/all/themes/CLARIN_Horizon/' ${BUILD_DIRECTORY}
 
-cd -- ~/'CLARIN_Horizon/'
+cd -- ${BUILD_DIRECTORY}
 
 ## Clean up
 ${RM} -fr -- 'less.starterkit' 'bootstrap/'
@@ -46,6 +49,8 @@ lessc 'less/style.less' --clean-css='--s0' > 'css/style.css'
 
 echo 'Packaging...'
 ## Make distribution
-tar -c -p -z -f ~/CLARIN_Horizon.tgz .
+tar -c -p -z -f ${BUILD_PACKAGE} .
 
-echo 'Done!'
+echo 'Done!
+
+Result written to' `realpath ${BUILD_PACKAGE}`
