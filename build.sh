@@ -20,7 +20,7 @@ curl --fail --location --show-error --silent --tlsv1 \
 ${CP} -apr -- "bootstrap-${DRUPAL_BOOTSTRAP_VERSION}/starterkits/less" ~/'CLARIN_Horizon/'
 ## Customize graphics.
 (cd 'sites/all/themes/CLARIN_Horizon/'
-${CP} -fr -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' 'fonts' ~/'CLARIN_Horizon/'
+${CP} -fr -- 'CLARIN_Horizon.info' 'favicon.ico' 'logo.png' 'template.php' ~/'CLARIN_Horizon/'
 ## Customize style
 ${CP} -fr -- 'less/style.less' ~/'CLARIN_Horizon/less')
 cd -- ~/'CLARIN_Horizon/'
@@ -33,6 +33,7 @@ curl --fail --location --show-error --silent --tlsv1 \
 	"${BASE_STYLE_REPOSITORY}/releases/download/${BASE_STYLE_VERSION}/base-style-${BASE_STYLE_VERSION}-less-with-bootstrap.jar" | bsdtar -xf -)
 ## Copy CLARIN bootstrap wrapper and additions
 ${CP} -fr -- 'bootstrap/less/clarin-bootstrap.less' 'bootstrap/less/clarin-additions.less' 'less'
+${CP} -fr -- 'bootstrap/fonts/' 'fonts'
 
 lessc 'less/style.less' --clean-css='--s0' > 'css/style.css'
 tar -c -p -z -f ~/CLARIN_Horizon.tgz .
