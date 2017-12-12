@@ -1,7 +1,7 @@
 #!/bin/sh
 DRUPAL_BOOTSTRAP_VERSION="7.x-3.12"
-BASE_STYLE_REPOSITORY="https://github.com/twagoo/base_style"
-BASE_STYLE_VERSION="0.2.0-dev1"
+BASE_STYLE_REPOSITORY="https://github.com/clarin-eric/base_style"
+BASE_STYLE_VERSION="0.2.0"
 
 BUILD_DIRECTORY=~/'CLARIN_Horizon/'
 BUILD_PACKAGE=~/'CLARIN_Horizon.tgz'
